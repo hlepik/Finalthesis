@@ -3,7 +3,7 @@ using Domain.App;
 namespace DAL.App.EF;
 public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
-        public DbSet<BodyMeasurements> BodyMeasurements { get; set; } = default!;
+        public DbSet<BodyMeasurement> BodyMeasurements { get; set; } = default!;
         public DbSet<Instruction> Instructions { get; set; } = default!;
         public DbSet<PatternInstruction> PatternInstructions { get; set; } = default!;
         public DbSet<Category> Categories { get; set; } = default!;

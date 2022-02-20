@@ -1,6 +1,6 @@
 namespace DAL.App.EF.Repositories;
 public class BodyMeasurementsRepository :
-        BaseRepository<DAL.App.DTO.BodyMeasurements, Domain.App.BodyMeasurements, AppDbContext>,
+        BaseRepository<DAL.App.DTO.BodyMeasurements, Domain.App.BodyMeasurement, AppDbContext>,
         IBodyMeasurementsRepository
     {
 

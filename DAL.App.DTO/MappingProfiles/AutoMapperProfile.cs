@@ -3,7 +3,7 @@ public class AutoMapperProfile: Profile
     {
         public AutoMapperProfile()
         {
-            CreateMap<DAL.App.DTO.BodyMeasurements, Domain.App.BodyMeasurements>().ReverseMap();
+            CreateMap<DAL.App.DTO.BodyMeasurements, Domain.App.BodyMeasurement>().ReverseMap();
             CreateMap<DAL.App.DTO.Category, Domain.App.Category>().ReverseMap();
             CreateMap<DAL.App.DTO.Instruction, Domain.App.Instruction>().ReverseMap();
             CreateMap<DAL.App.DTO.PatternInstruction, Domain.App.PatternInstruction>().ReverseMap();

@@ -1,5 +1,5 @@
 namespace Domain.App;
-public class BodyMeasurements : DomainEntityId, IDomainAppUserId, IDomainAppUser<AppUser>
+public class BodyMeasurement : DomainEntityId, IDomainAppUserId, IDomainAppUser<AppUser>
     {
         public float NeckSize { get; set; } //1 kaelaümbermõõt
         public float ChestGirth { get; set; } //2 RINNAümbermõõt
