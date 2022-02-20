@@ -1,11 +1,9 @@
 namespace Contracts.DAL.Base;
+
 public interface IBaseUnitOfWork
-    {
-        Task<int> SaveChangesAsync();
+{
+    Task<int> SaveChangesAsync();
 
-        TRepository GetRepository<TRepository>(Func<TRepository> repoCreationMethod)
-            where TRepository : class;
-
-
-
-    }
+    TRepository GetRepository<TRepository>(Func<TRepository> repoCreationMethod)
+        where TRepository : class;
+}

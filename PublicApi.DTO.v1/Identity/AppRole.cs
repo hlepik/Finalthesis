@@ -1,5 +1,5 @@
 namespace PublicApi.DTO.v1.Identity;
-public class AppRole: IdentityRole<Guid>
-    {
 
-    }
+public class AppRole : IdentityRole<Guid>
+{
+}

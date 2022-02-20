@@ -1,32 +1,47 @@
+using DAL.App.DTO.MappingProfiles;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Add services to the container.
+/*
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(
             builder.Configuration.GetConnectionString("DefaultConnection"))
         .EnableDetailedErrors()
         .EnableSensitiveDataLogging()
 );
+*/
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options
+        .UseSqlServer(
+            builder.Configuration.GetConnectionString("DefaultConnection"),
+            o => { o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery); })
+        .ConfigureWarnings(w =>
+            w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))
+        .EnableDetailedErrors()
+        .EnableSensitiveDataLogging()
+);
+
+
 builder.Services.AddScoped<IAppUnitOfWork, AppUnitOfWork>();
 builder.Services.AddScoped<IAppBLL, AppBLL>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-builder.Services.AddAuthentication().AddCookie(options =>
-    {
-        options.SlidingExpiration = true;
-    }
+builder.Services.AddAuthentication().AddCookie(options => { options.SlidingExpiration = true; }
 ).AddJwtBearer(options =>
     {
         options.RequireHttpsMetadata = false;
         options.SaveToken = true;
-        options.TokenValidationParameters = new TokenValidationParameters()
+        options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidIssuer = builder.Configuration["JWT:Issuer"],
-            ValidAudience =  builder.Configuration["JWT:Issuer"],
+            ValidAudience = builder.Configuration["JWT:Issuer"],
 
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes( builder.Configuration["JWT:Key"])),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
             ClockSkew = TimeSpan.Zero
         };
     }
@@ -34,9 +49,9 @@ builder.Services.AddAuthentication().AddCookie(options =>
 builder.Services.AddSingleton<IConfigureOptions<MvcOptions>, ConfigureModelBindingLocalization>();
 
 builder.Services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
-        .AddDefaultUI()
-        .AddEntityFrameworkStores<AppDbContext>()
-        .AddDefaultTokenProviders();
+    .AddDefaultUI()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews(options =>
 {
@@ -56,19 +71,13 @@ builder.Services.AddCors(options =>
 );
 
 
-builder.Services.AddAutoMapper(typeof(DAL.App.DTO.MappingProfiles.AutoMapperProfile),
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile),
     typeof(BLL.App.DTO.MappingProfiles.AutoMapperProfile));
 
 // add support for api versioning
-builder.Services.AddApiVersioning(options =>
-{
-    options.ReportApiVersions = true;
-});
+builder.Services.AddApiVersioning(options => { options.ReportApiVersions = true; });
 // add support for m2m api documentation
-builder.Services.AddVersionedApiExplorer(options =>
-{
-    options.GroupNameFormat = "'v'VVV";
-});
+builder.Services.AddVersionedApiExplorer(options => { options.GroupNameFormat = "'v'VVV"; });
 // add support to generate human readable documentation from m2m docs
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 builder.Services.AddSwaggerGen();
@@ -105,16 +114,11 @@ if (ctx != null)
 
     if (builder.Configuration.GetValue<bool>("AppData:SeedIdentity"))
     {
-
         if (userManager != null && roleManager != null)
-        {
             DataInit.SeedIdentity(userManager, roleManager);
-        }
         else
-        {
             Console.Write(
                 $"No user manager {(userManager == null ? "null" : "ok")} or role manager {(roleManager == null ? "null" : "ok")}!");
-        }
     }
 
     if (builder.Configuration.GetValue<bool>("AppData:SeedData"))
@@ -136,6 +140,7 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
 app.UseHttpsRedirection();
@@ -143,12 +148,10 @@ app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
     foreach (var apiVersionDescription in apiVersionDescriptionProvider.ApiVersionDescriptions)
-    {
         options.SwaggerEndpoint(
             $"/swagger/{apiVersionDescription.GroupName}/swagger.json",
             apiVersionDescription.GroupName.ToUpperInvariant()
         );
-    }
 });
 app.UseStaticFiles();
 
@@ -160,14 +163,13 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
-        name: "areas",
-        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+        "areas",
+        "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
     endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        "default",
+        "{controller=Home}/{action=Index}/{id?}");
     endpoints.MapRazorPages();
 });
 app.MapControllers();
 app.Run();
-

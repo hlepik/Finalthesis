@@ -10,5 +10,3 @@ global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using DAL.App.EF.Repositories;
 global using DAL.Base.EF;
 global using Contracts.DAL.App;
-
-

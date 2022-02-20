@@ -1,8 +1,11 @@
-namespace BLL.App.Mappers;
-public class PictureMapper: BaseMapper<BLL.App.DTO.Picture, DAL.App.DTO.Picture>, IBaseMapper<BLL.App.DTO.Picture, DAL.App.DTO.Picture>
+using BLL.App.DTO;
 
+namespace BLL.App.Mappers;
+
+public class PictureMapper : BaseMapper<Picture, DAL.App.DTO.Picture>, IBaseMapper<Picture, DAL.App.DTO.Picture>
+
+{
+    public PictureMapper(IMapper mapper) : base(mapper)
     {
-        public PictureMapper(IMapper mapper) : base(mapper)
-        {
-        }
     }
+}

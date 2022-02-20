@@ -1,8 +1,11 @@
-namespace BLL.App.Mappers;
-public class UnitMapper: BaseMapper<BLL.App.DTO.Unit, DAL.App.DTO.Unit>, IBaseMapper<BLL.App.DTO.Unit, DAL.App.DTO.Unit>
+using BLL.App.DTO;
 
+namespace BLL.App.Mappers;
+
+public class UnitMapper : BaseMapper<Unit, DAL.App.DTO.Unit>, IBaseMapper<Unit, DAL.App.DTO.Unit>
+
+{
+    public UnitMapper(IMapper mapper) : base(mapper)
     {
-        public UnitMapper(IMapper mapper) : base(mapper)
-        {
-        }
     }
+}

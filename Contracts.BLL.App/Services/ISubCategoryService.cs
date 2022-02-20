@@ -1,7 +1,8 @@
+using BLL.App.DTO;
+
 namespace Contracts.BLL.App.Services;
-public interface ISubCategoryService:  IBaseEntityService< BLLAppDTO.SubCategory, DALAppDTO.SubCategory>,
-        ISubCategoryRepositoryCustom<BLLAppDTO.SubCategory>
-    {
 
-    }
-
+public interface ISubCategoryService : IBaseEntityService<SubCategory, global::DAL.App.DTO.SubCategory>,
+    ISubCategoryRepositoryCustom<SubCategory>
+{
+}

@@ -1,8 +1,9 @@
+using BLL.App.DTO;
+
 namespace Contracts.BLL.App.Services;
 
-public interface IPatternInstructionService:  IBaseEntityService< BLLAppDTO.PatternInstruction, DALAppDTO.PatternInstruction>,
-        IPatternInstructionRepositoryCustom<BLLAppDTO.PatternInstruction>
-    {
-
-    }
-
+public interface IPatternInstructionService :
+    IBaseEntityService<PatternInstruction, global::DAL.App.DTO.PatternInstruction>,
+    IPatternInstructionRepositoryCustom<PatternInstruction>
+{
+}

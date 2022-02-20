@@ -1,7 +1,5 @@
-namespace Contracts.BLL.Base.Services
+namespace Contracts.BLL.Base.Services;
+
+public interface IBaseService
 {
-    public interface IBaseService
-    {
-        
-    }
 }

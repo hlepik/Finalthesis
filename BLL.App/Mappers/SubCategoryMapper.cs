@@ -1,8 +1,12 @@
-namespace BLL.App.Mappers;
-public class SubCategoryMapper: BaseMapper<BLL.App.DTO.SubCategory, DAL.App.DTO.SubCategory>, IBaseMapper<BLL.App.DTO.SubCategory, DAL.App.DTO.SubCategory>
+using BLL.App.DTO;
 
+namespace BLL.App.Mappers;
+
+public class SubCategoryMapper : BaseMapper<SubCategory, DAL.App.DTO.SubCategory>,
+    IBaseMapper<SubCategory, DAL.App.DTO.SubCategory>
+
+{
+    public SubCategoryMapper(IMapper mapper) : base(mapper)
     {
-        public SubCategoryMapper(IMapper mapper) : base(mapper)
-        {
-        }
     }
+}

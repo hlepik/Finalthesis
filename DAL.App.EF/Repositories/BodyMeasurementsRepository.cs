@@ -1,11 +1,14 @@
-namespace DAL.App.EF.Repositories;
-public class BodyMeasurementsRepository :
-        BaseRepository<DAL.App.DTO.BodyMeasurements, Domain.App.BodyMeasurement, AppDbContext>,
-        IBodyMeasurementsRepository
-    {
+using DAL.App.DTO;
+using Domain.App;
 
-        public BodyMeasurementsRepository(AppDbContext dbContext, IMapper mapper) : base(dbContext,
-            new BodyMeasurementsMapper(mapper))
-        {
-        }
+namespace DAL.App.EF.Repositories;
+
+public class BodyMeasurementsRepository :
+    BaseRepository<BodyMeasurements, BodyMeasurement, AppDbContext>,
+    IBodyMeasurementsRepository
+{
+    public BodyMeasurementsRepository(AppDbContext dbContext, IMapper mapper) : base(dbContext,
+        new BodyMeasurementsMapper(mapper))
+    {
     }
+}

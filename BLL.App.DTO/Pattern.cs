@@ -1,5 +1,5 @@
 namespace BLL.App.DTO;
-public class Pattern: DomainEntityId
-    {
 
-    }
+public class Pattern : DomainEntityId
+{
+}

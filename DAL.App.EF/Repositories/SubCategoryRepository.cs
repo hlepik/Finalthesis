@@ -1,10 +1,12 @@
-namespace DAL.App.EF.Repositories;
-public class SubCategoryRepository : BaseRepository<DAL.App.DTO.SubCategory, Domain.App.SubCategory, AppDbContext>,
-        ISubCategoryRepository
-    {
+using DAL.App.DTO;
 
-        public SubCategoryRepository(AppDbContext dbContext, IMapper mapper) : base(dbContext,
-            new SubCategoryMapper(mapper))
-        {
-        }
+namespace DAL.App.EF.Repositories;
+
+public class SubCategoryRepository : BaseRepository<SubCategory, Domain.App.SubCategory, AppDbContext>,
+    ISubCategoryRepository
+{
+    public SubCategoryRepository(AppDbContext dbContext, IMapper mapper) : base(dbContext,
+        new SubCategoryMapper(mapper))
+    {
     }
+}

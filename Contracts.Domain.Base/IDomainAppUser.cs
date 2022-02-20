@@ -1,13 +1,13 @@
 namespace Contracts.Domain.Base;
+
 public interface IDomainAppUser<TAppUser> : IDomainAppUser<Guid, TAppUser>
-        where TAppUser: IdentityUser<Guid>
-    {
+    where TAppUser : IdentityUser<Guid>
+{
+}
 
-    }
-
-    public interface IDomainAppUser<TKey, TAppUser>
-        where TKey: IEquatable<TKey>
-        where TAppUser: IdentityUser<TKey>
-    {
-        TAppUser? AppUser { get; set; }
-    }
+public interface IDomainAppUser<TKey, TAppUser>
+    where TKey : IEquatable<TKey>
+    where TAppUser : IdentityUser<TKey>
+{
+    TAppUser? AppUser { get; set; }
+}

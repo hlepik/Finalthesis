@@ -18,7 +18,7 @@ services:
     ports:
       # this maps external:internal, but the docker created network between images is connected directly - using the original ports
       # so use external for connecting with admin tools - docker will forward connection to internal port
-      - "1502:1433"
+      - "11433:1433"
 
 
   webapp-hlepik:
@@ -27,13 +27,13 @@ services:
     volumes:
       - webapp-hlepik-volume:/app/wwwroot/uploads
     extra_hosts:
-      - "host.docker.internal:host-gateway"    
+      - "host.docker.internal:host-gateway"
     restart: on-failure
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-      # 172.17.0.1
+      ConnectionStrings__DefaultConnection: "Server=localhost,1433;User Id=SA;Password=Bad.Pass.1;Database=hlepik;MultipleActiveResultSets=true"
     ports:
-      - "6080:80"
+      - "18080:80"
     depends_on:
       - "mssql-hlepik"
 

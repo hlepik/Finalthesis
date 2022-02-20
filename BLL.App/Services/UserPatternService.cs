@@ -1,8 +1,12 @@
-namespace BLL.App.Services;
-public class UserPatternService: BaseEntityService<IAppUnitOfWork, IUserPatternRepository, BLLAppDTO.UserPattern, DALAppDTO.UserPattern>, IUserPatternService
-    {
+using BLL.App.DTO;
 
-        public UserPatternService(IAppUnitOfWork serviceUow, IUserPatternRepository serviceRepository, IMapper mapper) : base(serviceUow, serviceRepository, new UserPatternMapper(mapper))
-        {
-        }
+namespace BLL.App.Services;
+
+public class UserPatternService :
+    BaseEntityService<IAppUnitOfWork, IUserPatternRepository, UserPattern, DAL.App.DTO.UserPattern>, IUserPatternService
+{
+    public UserPatternService(IAppUnitOfWork serviceUow, IUserPatternRepository serviceRepository, IMapper mapper) :
+        base(serviceUow, serviceRepository, new UserPatternMapper(mapper))
+    {
     }
+}

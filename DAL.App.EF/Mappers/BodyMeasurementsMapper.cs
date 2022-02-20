@@ -1,8 +1,12 @@
+using DAL.App.DTO;
+using Domain.App;
+
 namespace DAL.App.EF.Mappers;
-public class BodyMeasurementsMapper : BaseMapper<DTO.BodyMeasurements, Domain.App.BodyMeasurement>,
-        IBaseMapper<DTO.BodyMeasurements, Domain.App.BodyMeasurement>
+
+public class BodyMeasurementsMapper : BaseMapper<BodyMeasurements, BodyMeasurement>,
+    IBaseMapper<BodyMeasurements, BodyMeasurement>
+{
+    public BodyMeasurementsMapper(IMapper mapper) : base(mapper)
     {
-        public BodyMeasurementsMapper(IMapper mapper) : base(mapper)
-        {
-        }
     }
+}

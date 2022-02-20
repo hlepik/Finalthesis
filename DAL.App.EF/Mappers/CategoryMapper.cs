@@ -1,7 +1,10 @@
+using DAL.App.DTO;
+
 namespace DAL.App.EF.Mappers;
-public class CategoryMapper: BaseMapper<DTO.Category, Domain.App.Category>, IBaseMapper<DTO.Category, Domain.App.Category>
+
+public class CategoryMapper : BaseMapper<Category, Domain.App.Category>, IBaseMapper<Category, Domain.App.Category>
+{
+    public CategoryMapper(IMapper mapper) : base(mapper)
     {
-        public CategoryMapper(IMapper mapper) : base(mapper)
-        {
-        }
     }
+}
