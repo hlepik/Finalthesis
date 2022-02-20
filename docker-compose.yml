@@ -35,7 +35,7 @@ services:
     ports:
       - "6080:80"
     depends_on:
-      - "webapp-mssql-hlepik"
+      - "mssql-hlepik"
 
 volumes:
   mssql-hlepik-volume:
