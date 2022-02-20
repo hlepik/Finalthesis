@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mssql-hlepik:
+    container_name: "mssql-hlepik"
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    volumes:
+      - mssql-hlepik-volume:/var/opt/mssql
+    restart: on-failure
+    environment:
+      TZ: "Europe/Tallinn"
+      ACCEPT_EULA: "Y"
+      # regular sql server
+      SA_PASSWORD: "Bad.Pass.1"
+      # sql edge
+      MSSQL_SA_PASSWORD: "Bad.Pass.1"
+      MSSQL_PID: Developer
+    ports:
+      # this maps external:internal, but the docker created network between images is connected directly - using the original ports
+      # so use external for connecting with admin tools - docker will forward connection to internal port
+      - "1502:1433"
+
+
+  webapp-hlepik:
+    container_name: webapp-hlepik
+    build: .
+    volumes:
+      - webapp-hlepik-volume:/app/wwwroot/uploads
+    extra_hosts:
+      - "host.docker.internal:host-gateway"    
+    restart: on-failure
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      # 172.17.0.1
+    ports:
+      - "6080:80"
+    depends_on:
+      - "webapp-mssql-hlepik"
+
+volumes:
+  mssql-hlepik-volume:
+  webapp-hlepik-volume:
