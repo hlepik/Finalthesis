@@ -1,6 +1,7 @@
 namespace Contracts.BLL.App;
 public interface IAppBLL : IBaseBLL
     {
+
         IBodyMeasurementsService BodyMeasurements { get; }
         ICategoryService Category { get; }
         IInstructionService Instruction { get; }
