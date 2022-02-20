@@ -3,6 +3,7 @@
 ~~~sh
 dotnet ef migrations add --project DAL.App.EF --startup-project WebApp --context AppDbContext Initial
 dotnet ef migrations remove --project DAL.App.EF --startup-project WebApp --context AppDbContext 
+dotnet ef database update --project DAL.App.EF --startup-project WebApp --context AppDbContext 
 ~~~
 
 Scaffold controller
