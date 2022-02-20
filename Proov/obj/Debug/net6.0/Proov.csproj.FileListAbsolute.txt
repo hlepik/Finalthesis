@@ -1,0 +1,12 @@
+/Users/hellu/loputoo/FinalThesis/Proov/bin/Debug/net6.0/Proov.deps.json
+/Users/hellu/loputoo/FinalThesis/Proov/bin/Debug/net6.0/Proov.dll
+/Users/hellu/loputoo/FinalThesis/Proov/bin/Debug/net6.0/ref/Proov.dll
+/Users/hellu/loputoo/FinalThesis/Proov/bin/Debug/net6.0/Proov.pdb
+/Users/hellu/loputoo/FinalThesis/Proov/obj/Debug/net6.0/Proov.csproj.AssemblyReference.cache
+/Users/hellu/loputoo/FinalThesis/Proov/obj/Debug/net6.0/Proov.GeneratedMSBuildEditorConfig.editorconfig
+/Users/hellu/loputoo/FinalThesis/Proov/obj/Debug/net6.0/Proov.AssemblyInfoInputs.cache
+/Users/hellu/loputoo/FinalThesis/Proov/obj/Debug/net6.0/Proov.AssemblyInfo.cs
+/Users/hellu/loputoo/FinalThesis/Proov/obj/Debug/net6.0/Proov.csproj.CoreCompileInputs.cache
+/Users/hellu/loputoo/FinalThesis/Proov/obj/Debug/net6.0/Proov.dll
+/Users/hellu/loputoo/FinalThesis/Proov/obj/Debug/net6.0/ref/Proov.dll
+/Users/hellu/loputoo/FinalThesis/Proov/obj/Debug/net6.0/Proov.pdb

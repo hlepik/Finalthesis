@@ -1,0 +1,17 @@
+/Users/hellu/loputoo/FinalThesis/Domain.App/bin/Debug/net6.0/Domain.App.deps.json
+/Users/hellu/loputoo/FinalThesis/Domain.App/bin/Debug/net6.0/Domain.App.dll
+/Users/hellu/loputoo/FinalThesis/Domain.App/bin/Debug/net6.0/ref/Domain.App.dll
+/Users/hellu/loputoo/FinalThesis/Domain.App/bin/Debug/net6.0/Domain.App.pdb
+/Users/hellu/loputoo/FinalThesis/Domain.App/bin/Debug/net6.0/Contracts.Domain.Base.dll
+/Users/hellu/loputoo/FinalThesis/Domain.App/bin/Debug/net6.0/Domain.Base.dll
+/Users/hellu/loputoo/FinalThesis/Domain.App/bin/Debug/net6.0/Contracts.Domain.Base.pdb
+/Users/hellu/loputoo/FinalThesis/Domain.App/bin/Debug/net6.0/Domain.Base.pdb
+/Users/hellu/loputoo/FinalThesis/Domain.App/obj/Debug/net6.0/Domain.App.csproj.AssemblyReference.cache
+/Users/hellu/loputoo/FinalThesis/Domain.App/obj/Debug/net6.0/Domain.App.GeneratedMSBuildEditorConfig.editorconfig
+/Users/hellu/loputoo/FinalThesis/Domain.App/obj/Debug/net6.0/Domain.App.AssemblyInfoInputs.cache
+/Users/hellu/loputoo/FinalThesis/Domain.App/obj/Debug/net6.0/Domain.App.AssemblyInfo.cs
+/Users/hellu/loputoo/FinalThesis/Domain.App/obj/Debug/net6.0/Domain.App.csproj.CoreCompileInputs.cache
+/Users/hellu/loputoo/FinalThesis/Domain.App/obj/Debug/net6.0/Domain.App.csproj.CopyComplete
+/Users/hellu/loputoo/FinalThesis/Domain.App/obj/Debug/net6.0/Domain.App.dll
+/Users/hellu/loputoo/FinalThesis/Domain.App/obj/Debug/net6.0/ref/Domain.App.dll
+/Users/hellu/loputoo/FinalThesis/Domain.App/obj/Debug/net6.0/Domain.App.pdb
