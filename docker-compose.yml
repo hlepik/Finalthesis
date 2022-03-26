@@ -31,7 +31,7 @@ services:
     restart: on-failure
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-      ConnectionStrings__DefaultConnection: "Server=localhost,1433;User Id=SA;Password=Bad.Pass.1;Database=hlepik;MultipleActiveResultSets=true"
+      ConnectionStrings__DefaultConnection: "Server=mssql-hlepik,1433;User Id=SA;Password=Bad.Pass.1;Database=hlepik;MultipleActiveResultSets=true"
     ports:
       - "18080:80"
     depends_on:

@@ -1,18 +1,11 @@
 using DAL.App.DTO.MappingProfiles;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Add services to the container.
-/*
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(
-            builder.Configuration.GetConnectionString("DefaultConnection"))
-        .EnableDetailedErrors()
-        .EnableSensitiveDataLogging()
-);
-*/
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options
@@ -156,6 +149,7 @@ app.UseSwaggerUI(options =>
 app.UseStaticFiles();
 
 app.UseCors("CorsAllowAll");
+
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();

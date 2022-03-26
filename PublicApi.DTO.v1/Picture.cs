@@ -2,6 +2,9 @@ namespace PublicApi.DTO.v1;
 
 public class Picture
 {
-    public string Url { get; set; } = default!;
+    public Guid Id { get; set; }
+    public string? FileName { get; set; }
+
+    public IFormFile? ImageFile { get; set; } = default!;
     public Guid PatternInstructionId { get; set; }
 }

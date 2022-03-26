@@ -11,4 +11,5 @@ public interface IAppUnitOfWork : IBaseUnitOfWork
     IPictureRepository Picture { get; }
     IUnitRepository Unit { get; }
     IUserPatternRepository UserPattern { get; }
+
 }

@@ -11,4 +11,5 @@ public interface IAppBLL : IBaseBLL
     ISubCategoryService SubCategory { get; }
     IUnitService Unit { get; }
     IUserPatternService UserPattern { get; }
+
 }

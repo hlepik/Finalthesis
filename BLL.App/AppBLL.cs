@@ -37,4 +37,5 @@ public class AppBLL : BaseBLL<IAppUnitOfWork>, IAppBLL
 
     public IUserPatternService UserPattern =>
         GetService<IUserPatternService>(() => new UserPatternService(Uow, Uow.UserPattern, Mapper));
+
 }

@@ -23,4 +23,5 @@ public class AppUnitOfWork : BaseUnitOfWork<AppDbContext>, IAppUnitOfWork
     public ISubCategoryRepository SubCategory => GetRepository(() => new SubCategoryRepository(UowDbContext, Mapper));
     public IUnitRepository Unit => GetRepository(() => new UnitRepository(UowDbContext, Mapper));
     public IUserPatternRepository UserPattern => GetRepository(() => new UserPatternRepository(UowDbContext, Mapper));
+
 }

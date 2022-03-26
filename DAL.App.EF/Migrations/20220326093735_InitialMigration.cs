@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAL.App.EF.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -208,26 +208,26 @@ namespace DAL.App.EF.Migrations
                     ChestGirth = table.Column<float>(type: "real", nullable: false),
                     WaistGirth = table.Column<float>(type: "real", nullable: false),
                     UpperHipGirth = table.Column<float>(type: "real", nullable: false),
-                    WaistLenghtFirst = table.Column<float>(type: "real", nullable: false),
+                    WaistLengthFirst = table.Column<float>(type: "real", nullable: false),
                     HipGirth = table.Column<float>(type: "real", nullable: false),
-                    WaistLenghtSec = table.Column<float>(type: "real", nullable: false),
+                    WaistLengthSec = table.Column<float>(type: "real", nullable: false),
                     UpperArmGirth = table.Column<float>(type: "real", nullable: false),
                     WristGirth = table.Column<float>(type: "real", nullable: false),
-                    FrontLenght = table.Column<float>(type: "real", nullable: false),
+                    FrontLength = table.Column<float>(type: "real", nullable: false),
                     ThighGirth = table.Column<float>(type: "real", nullable: false),
                     KneeGirth = table.Column<float>(type: "real", nullable: false),
                     CalfGirth = table.Column<float>(type: "real", nullable: false),
                     AnkleGirth = table.Column<float>(type: "real", nullable: false),
-                    InsideLegLenght = table.Column<float>(type: "real", nullable: false),
-                    ArmLenght = table.Column<float>(type: "real", nullable: false),
-                    ShoulderLenght = table.Column<float>(type: "real", nullable: false),
-                    ArmholeLenght = table.Column<float>(type: "real", nullable: false),
+                    InsideLegLength = table.Column<float>(type: "real", nullable: false),
+                    ArmLength = table.Column<float>(type: "real", nullable: false),
+                    ShoulderLength = table.Column<float>(type: "real", nullable: false),
+                    ArmholeLength = table.Column<float>(type: "real", nullable: false),
                     BackWidth = table.Column<float>(type: "real", nullable: false),
                     WaistHeight = table.Column<float>(type: "real", nullable: false),
-                    BackLenght = table.Column<float>(type: "real", nullable: false),
+                    BackLength = table.Column<float>(type: "real", nullable: false),
                     ChestHeight = table.Column<float>(type: "real", nullable: false),
                     ButtockHeight = table.Column<float>(type: "real", nullable: false),
-                    Lenght = table.Column<float>(type: "real", nullable: false),
+                    Length = table.Column<float>(type: "real", nullable: false),
                     UnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     AppUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -255,6 +255,7 @@ namespace DAL.App.EF.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", maxLength: 20000, nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TotalStep = table.Column<int>(type: "int", nullable: false),
                     SubCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -297,8 +298,8 @@ namespace DAL.App.EF.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     HasDone = table.Column<bool>(type: "bit", nullable: false),
                     StepCount = table.Column<int>(type: "int", nullable: false),
-                    AppUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    InstructionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    InstructionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AppUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -322,7 +323,7 @@ namespace DAL.App.EF.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PatternInstructionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>

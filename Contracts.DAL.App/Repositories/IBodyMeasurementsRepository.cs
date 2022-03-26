@@ -7,4 +7,6 @@ public interface IBodyMeasurementsRepository : IBaseRepository<BodyMeasurements>
 
 public interface IBodyMeasurementsRepositoryCustom<TEntity>
 {
+    Task<TEntity?> FirstOrDefaultUserMeasurementsAsync(Guid id,
+        bool noTracking = true);
 }

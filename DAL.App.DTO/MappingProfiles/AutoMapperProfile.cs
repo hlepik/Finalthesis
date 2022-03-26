@@ -15,7 +15,7 @@ public class AutoMapperProfile : Profile
         CreateMap<SubCategory, Domain.App.SubCategory>().ReverseMap();
         CreateMap<Unit, Domain.App.Unit>().ReverseMap();
         CreateMap<UserPattern, Domain.App.UserPattern>().ReverseMap();
-        CreateMap<AppUser, AppUser>().ReverseMap();
-        CreateMap<AppRole, AppRole>().ReverseMap();
+        CreateMap<AppUser, Domain.App.Identity.AppUser>().ReverseMap();
+        CreateMap<AppRole, Domain.App.Identity.AppRole>().ReverseMap();
     }
 }

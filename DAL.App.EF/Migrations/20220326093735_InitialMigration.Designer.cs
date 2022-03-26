@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.App.EF.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220220161117_Initial")]
-    partial class Initial
+    [Migration("20220326093735_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,13 +36,13 @@ namespace DAL.App.EF.Migrations
                     b.Property<Guid>("AppUserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<float>("ArmLenght")
+                    b.Property<float>("ArmLength")
                         .HasColumnType("real");
 
-                    b.Property<float>("ArmholeLenght")
+                    b.Property<float>("ArmholeLength")
                         .HasColumnType("real");
 
-                    b.Property<float>("BackLenght")
+                    b.Property<float>("BackLength")
                         .HasColumnType("real");
 
                     b.Property<float>("BackWidth")
@@ -60,25 +60,25 @@ namespace DAL.App.EF.Migrations
                     b.Property<float>("ChestHeight")
                         .HasColumnType("real");
 
-                    b.Property<float>("FrontLenght")
+                    b.Property<float>("FrontLength")
                         .HasColumnType("real");
 
                     b.Property<float>("HipGirth")
                         .HasColumnType("real");
 
-                    b.Property<float>("InsideLegLenght")
+                    b.Property<float>("InsideLegLength")
                         .HasColumnType("real");
 
                     b.Property<float>("KneeGirth")
                         .HasColumnType("real");
 
-                    b.Property<float>("Lenght")
+                    b.Property<float>("Length")
                         .HasColumnType("real");
 
                     b.Property<float>("NeckSize")
                         .HasColumnType("real");
 
-                    b.Property<float>("ShoulderLenght")
+                    b.Property<float>("ShoulderLength")
                         .HasColumnType("real");
 
                     b.Property<float>("ThighGirth")
@@ -99,10 +99,10 @@ namespace DAL.App.EF.Migrations
                     b.Property<float>("WaistHeight")
                         .HasColumnType("real");
 
-                    b.Property<float>("WaistLenghtFirst")
+                    b.Property<float>("WaistLengthFirst")
                         .HasColumnType("real");
 
-                    b.Property<float>("WaistLenghtSec")
+                    b.Property<float>("WaistLengthSec")
                         .HasColumnType("real");
 
                     b.Property<float>("WristGirth")
@@ -246,6 +246,9 @@ namespace DAL.App.EF.Migrations
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(20000)
@@ -298,13 +301,11 @@ namespace DAL.App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("PatternInstructionId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
 
