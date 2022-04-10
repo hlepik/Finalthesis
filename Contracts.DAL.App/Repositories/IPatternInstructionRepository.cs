@@ -7,4 +7,7 @@ public interface IPatternInstructionRepository : IBaseRepository<PatternInstruct
 
 public interface IPatternInstructionRepositoryCustom<TEntity>
 {
+    Task<IEnumerable<TEntity>?> GetAllByInstructionId(Guid id);
+    void RemoveByInstructionId(Guid? id);
+
 }

@@ -6,10 +6,11 @@ public interface IAppBLL : IBaseBLL
     ICategoryService Category { get; }
     IInstructionService Instruction { get; }
     IPatternInstructionService PatternInstruction { get; }
-    IPatternService Pattern { get; }
-    IPictureService Picture { get; }
+    IExtraSizeService ExtraSize { get; }
     ISubCategoryService SubCategory { get; }
     IUnitService Unit { get; }
     IUserPatternService UserPattern { get; }
+    IMeasurementTypeService MeasurementType { get; }
+    IUserMeasurementsService UserMeasurements { get; }
 
 }

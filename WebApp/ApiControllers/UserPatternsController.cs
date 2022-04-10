@@ -31,7 +31,7 @@ namespace WebApp.ApiControllers;
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(PublicApi.DTO.v1.Message))]
         public async Task<ActionResult<PublicApi.DTO.v1.UserPattern>> GetUserPattern(Guid id)
         {
-            var userPattern = await _bll.UserPattern.FirstOrDefaultAsync(id);
+            var userPattern = await _bll.UserPattern.GetByInstructionId(id);
 
             if (userPattern == null)
             {

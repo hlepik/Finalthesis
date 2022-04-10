@@ -10,4 +10,14 @@ public class PatternInstructionService :
         IMapper mapper) : base(serviceUow, serviceRepository, new PatternInstructionMapper(mapper))
     {
     }
+    public async Task<IEnumerable<BLLAppDTO.PatternInstruction>?> GetAllByInstructionId(Guid id)
+    {
+        return (await ServiceRepository.GetAllByInstructionId(id))!.Select(x => Mapper.Map(x))!;
+
+    }
+    public void RemoveByInstructionId(Guid? id)
+    {
+        ServiceRepository.RemoveByInstructionId(id);
+    }
+
 }

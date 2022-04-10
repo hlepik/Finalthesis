@@ -23,11 +23,9 @@ public class AppBLL : BaseBLL<IAppUnitOfWork>, IAppBLL
         GetService<IPatternInstructionService>(() =>
             new PatternInstructionService(Uow, Uow.PatternInstruction, Mapper));
 
-    public IPatternService Pattern =>
-        GetService<IPatternService>(() => new PatternService(Uow, Uow.Pattern, Mapper));
-
-    public IPictureService Picture =>
-        GetService<IPictureService>(() => new PictureService(Uow, Uow.Picture, Mapper));
+    public IExtraSizeService ExtraSize =>
+        GetService<IExtraSizeService>(() => new ExtraSizeService(Uow, Uow.ExtraSize, Mapper));
+    
 
     public ISubCategoryService SubCategory =>
         GetService<ISubCategoryService>(() => new SubCategoryService(Uow, Uow.SubCategory, Mapper));
@@ -37,5 +35,9 @@ public class AppBLL : BaseBLL<IAppUnitOfWork>, IAppBLL
 
     public IUserPatternService UserPattern =>
         GetService<IUserPatternService>(() => new UserPatternService(Uow, Uow.UserPattern, Mapper));
-
+    
+    public IMeasurementTypeService MeasurementType =>
+        GetService<IMeasurementTypeService>(() => new MeasurementTypeService(Uow, Uow.MeasurementType, Mapper));
+    public IUserMeasurementsService UserMeasurements =>
+        GetService<IUserMeasurementsService>(() => new UserMeasurementsService(Uow, Uow.UserMeasurements, Mapper));
 }

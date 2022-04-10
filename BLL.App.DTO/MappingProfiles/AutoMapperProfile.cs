@@ -9,12 +9,14 @@ public class AutoMapperProfile : Profile
         CreateMap<BodyMeasurements, DAL.App.DTO.BodyMeasurements>().ReverseMap();
         CreateMap<Category, DAL.App.DTO.Category>().ReverseMap();
         CreateMap<Instruction, DAL.App.DTO.Instruction>().ReverseMap();
-        CreateMap<Pattern, DAL.App.DTO.Pattern>().ReverseMap();
+        CreateMap<ExtraSize, DAL.App.DTO.ExtraSize>().ReverseMap();
         CreateMap<PatternInstruction, DAL.App.DTO.PatternInstruction>().ReverseMap();
-        CreateMap<Picture, DAL.App.DTO.Picture>().ReverseMap();
         CreateMap<SubCategory, DAL.App.DTO.SubCategory>().ReverseMap();
         CreateMap<Unit, DAL.App.DTO.Unit>().ReverseMap();
         CreateMap<UserPattern, DAL.App.DTO.UserPattern>().ReverseMap();
+        CreateMap<MeasurementType, DAL.App.DTO.MeasurementType>().ReverseMap();
+        CreateMap<UserMeasurements, DAL.App.DTO.UserMeasurements>().ReverseMap();
+
         CreateMap<AppUser, DAL.App.DTO.Identity.AppUser>().ReverseMap();
         CreateMap<AppRole, DAL.App.DTO.Identity.AppRole>().ReverseMap();
     }

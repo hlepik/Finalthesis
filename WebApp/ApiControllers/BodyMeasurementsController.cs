@@ -20,7 +20,7 @@ namespace WebApp.ApiControllers;
         [Produces("application/json")]
         [Consumes("application/json")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(PublicApi.DTO.v1.Unit), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PublicApi.DTO.v1.BodyMeasurements), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<PublicApi.DTO.v1.BodyMeasurements>>> GetBodyMeasurements()
         {
             return Ok((await _bll.BodyMeasurements.GetAllAsync()).Select(a => _mapper.Map(a)));

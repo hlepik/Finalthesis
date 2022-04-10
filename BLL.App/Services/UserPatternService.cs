@@ -9,4 +9,8 @@ public class UserPatternService :
         base(serviceUow, serviceRepository, new UserPatternMapper(mapper))
     {
     }
+    public async Task<UserPattern?> GetByInstructionId(Guid id, Guid? userId,  bool noTracking = true)
+    {
+        return Mapper.Map(await ServiceRepository.GetByInstructionId(id, userId, noTracking))!;
+    }
 }

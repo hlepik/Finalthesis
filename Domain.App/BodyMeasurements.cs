@@ -30,4 +30,6 @@ public class BodyMeasurement : DomainEntityId, IDomainAppUserId, IDomainAppUser<
     public Unit? Unit { get; set; }
     public AppUser? AppUser { get; set; }
     public Guid AppUserId { get; set; }
+    public Guid? InstructionId { get; set; }
+    public Instruction? Instruction { get; set; }
 }

@@ -10,12 +10,15 @@ public class AutoMapperProfile : Profile
         CreateMap<Category, Domain.App.Category>().ReverseMap();
         CreateMap<Instruction, Domain.App.Instruction>().ReverseMap();
         CreateMap<PatternInstruction, Domain.App.PatternInstruction>().ReverseMap();
-        CreateMap<Pattern, Domain.App.Pattern>().ReverseMap();
-        CreateMap<Picture, Domain.App.Picture>().ReverseMap();
+        CreateMap<ExtraSize, Domain.App.ExtraSize>().ReverseMap();
         CreateMap<SubCategory, Domain.App.SubCategory>().ReverseMap();
         CreateMap<Unit, Domain.App.Unit>().ReverseMap();
         CreateMap<UserPattern, Domain.App.UserPattern>().ReverseMap();
+        CreateMap<MeasurementType, Domain.App.MeasurementType>().ReverseMap();
+        CreateMap<UserMeasurements, Domain.App.UserMeasurements>().ReverseMap();
+
         CreateMap<AppUser, Domain.App.Identity.AppUser>().ReverseMap();
         CreateMap<AppRole, Domain.App.Identity.AppRole>().ReverseMap();
+        
     }
 }

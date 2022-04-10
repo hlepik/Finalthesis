@@ -23,6 +23,17 @@ namespace WebApp.ApiControllers;
         {
             return Ok((await _bll.PatternInstruction.GetAllAsync()).Select(a => _mapper.Map(a)));
         }
+        
+        // GET: api/PatternInstructions
+        [HttpGet("instructionId/{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(PublicApi.DTO.v1.PatternInstruction), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<PublicApi.DTO.v1.PatternInstruction>>> GetPatternInstructionsById(Guid id)
+        {
+            return Ok((await _bll.PatternInstruction.GetAllByInstructionId(id))!.Select(a => _mapper.Map(a)));
+        }
 
         // GET: api/PatternInstructions/5
         [HttpGet("{id}")]
@@ -65,19 +76,30 @@ namespace WebApp.ApiControllers;
         // POST: api/PatternInstructions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Produces("application/json")]
-        [Consumes("application/json")]
+        [Consumes("multipart/form-data")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(PatternInstruction))]
         [HttpPost]
-        public async Task<ActionResult<PatternInstruction>> PostPatternInstruction(PatternInstruction patternInstruction)
+        public async Task<ActionResult<PatternInstruction>> PostPatternInstruction([FromForm] PatternInstruction patternInstruction)
         {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Pictures");
+            string fileName = patternInstruction.Picture!.FileName;
+
+            string fileNameWithPath = Path.Combine(path, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                patternInstruction.Picture.CopyTo(stream);
+            }
+            patternInstruction.PictureName = fileName;
+
             _bll.PatternInstruction.Add(_mapper.Map(patternInstruction));
             await _bll.SaveChangesAsync();
 
             return CreatedAtAction(
                 "GetPatternInstruction",
                 new
-                {
+                { 
                     id = patternInstruction.Id
 
                 }, patternInstruction);

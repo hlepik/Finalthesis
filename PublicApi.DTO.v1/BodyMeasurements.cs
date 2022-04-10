@@ -29,4 +29,5 @@ public class BodyMeasurements
     public float Length { get; set; }
     public Guid UnitId { get; set; }
     public Guid AppUserId { get; set; }
+    public Guid? InstructionId { get; set; }
 }

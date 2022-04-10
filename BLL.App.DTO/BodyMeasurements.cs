@@ -28,6 +28,6 @@ public class BodyMeasurements : DomainEntityId
     public float Length { get; set; }
     public Guid UnitId { get; set; }
     public Unit? Unit { get; set; }
-
+    public Guid? InstructionId { get; set; }
     public Guid AppUserId { get; set; }
 }

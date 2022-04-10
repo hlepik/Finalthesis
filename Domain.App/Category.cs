@@ -6,5 +6,5 @@ public class Category : DomainEntityId
     [MaxLength(500)]
     public string Name { get; set; } = default!;
 
-    public ICollection<SubCategory>? SubCategory { get; set; }
+    public ICollection<Instruction>? Instructions { get; set; }
 }

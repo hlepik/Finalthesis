@@ -7,9 +7,20 @@ public class Instruction : DomainEntityId
     public string Name { get; set; } = default!;
     public IFormFile? PatternFile { get; set; }
     public string? FileName { get; set; }
+    public string Description { get; set; } = default!;
+    public string? MainPictureName { get; set; }
+    public string? CategoryName { get; set; } 
 
+    public IFormFile? MainPicture { get; set; }
+    
     public int TotalStep { get; set; }
     public ICollection<PatternInstruction>? PatternInstructions { get; set; }
-    public Guid SubCategoryId { get; set; }
-    public SubCategory? SubCategory { get; set; }
+    public IEnumerable<BodyMeasurements>? BodyMeasurements{ get; set; }
+
+    public Guid CategoryId { get; set; }
+    public Category? Category { get; set; }
+ 
+
+
+
 }
