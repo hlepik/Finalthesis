@@ -81,6 +81,31 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
 
         return await resQuery.ToListAsync();
     }
+
+    public async Task<Instruction?> FirstOrDefaultDtoAsync(Guid id, bool noTracking = true)
+    {
+        var query = CreateQuery(default, noTracking);
+
+
+        var resQuery = query
+            .Select(p => new DAL.App.DTO.Instruction()
+            {
+
+                Id = p.Id,
+                MainPicture = p.MainPicture,
+                MainPictureName = p.MainPictureName,
+                FileName = p.FileName,
+                Name = p.Name,
+                PatternFile = p.PatternFile,
+                Description = p.Description,
+                DateAdded = p.DateAdded
+               
+
+            }).FirstOrDefaultAsync(m => m.Id == id);
+
+        return await resQuery;
+    }
+
     public async Task<IEnumerable<DAL.App.DTO.Instruction?>> GetSearchResult(string searchInput, Guid? categoryId)
     {
 
@@ -110,9 +135,10 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
         return await resQuery.ToListAsync();
     }
 
-    public async Task<DAL.App.DTO.Instruction?> FirstOrDefaultDtoAsync(Guid id, bool noTracking = true)
+    public void CalculateMeasurements(Guid id)
     {
-        var query = CreateQuery(default, noTracking);
+        var mar = "olen siin";
+        var query = CreateQuery(default);
 
         query = query.Include(x => x.PatternInstructions);
 
@@ -130,9 +156,11 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
 
           
             }).FirstOrDefaultAsync(m => m.Id == id);
+        var measurements = new Domain.App.BodyMeasurement();
 
-        return await resQuery;
+        RepoDbContext.BodyMeasurements.Add(measurements);
+  
     }
 
-
+   
 }

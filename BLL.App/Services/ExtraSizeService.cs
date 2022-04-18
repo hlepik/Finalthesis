@@ -1,4 +1,5 @@
 using BLL.App.DTO;
+using BodyMeasurements = DAL.App.DTO.BodyMeasurements;
 
 namespace BLL.App.Services;
 
@@ -18,4 +19,5 @@ public class ExtraSizeService : BaseEntityService<IAppUnitOfWork, IExtraSizeRepo
     {
         ServiceRepository.RemoveByInstructionId(id);
     }
+    
 }

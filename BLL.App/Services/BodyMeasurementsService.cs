@@ -1,4 +1,6 @@
+using System.Collections;
 using BLL.App.DTO;
+using ExtraSize = DAL.App.DTO.ExtraSize;
 
 namespace BLL.App.Services;
 
@@ -17,4 +19,10 @@ public class BodyMeasurementsService :
         return Mapper.Map(await ServiceRepository.FirstOrDefaultUserMeasurementsAsync(id,  noTracking));
 
     }
+    public async Task<BLLAppDTO.BodyMeasurements?> GetByInstructionId(Guid id, Guid userId, bool noTracking = true)
+    {
+        return Mapper.Map(await ServiceRepository.GetByInstructionId(id,  userId, noTracking));
+
+    }
+
 }

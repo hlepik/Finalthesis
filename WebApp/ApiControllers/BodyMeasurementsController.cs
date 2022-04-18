@@ -25,7 +25,7 @@ namespace WebApp.ApiControllers;
         {
             return Ok((await _bll.BodyMeasurements.GetAllAsync()).Select(a => _mapper.Map(a)));
         }
-
+        
         // GET: api/BodyMeasurements/5
         [HttpGet("{id}")]
         [Produces("application/json")]
@@ -39,6 +39,29 @@ namespace WebApp.ApiControllers;
             {
                 return NotFound(new Message("Body measurements not found"));
             }
+
+            return Ok(_mapper.Map(bodyMeasurements));
+        }
+
+        
+        // GET: api/BodyMeasurements/pattern/5
+        [HttpGet("pattern/{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(PublicApi.DTO.v1.BodyMeasurements), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(PublicApi.DTO.v1.Message))]
+        public async Task<ActionResult<PublicApi.DTO.v1.BodyMeasurements>> GetBodyMeasurementByInstructionId(Guid id)
+        {
+            var userId = User.GetUserId()!.Value;
+            var bodyMeasurements = await _bll.BodyMeasurements.GetByInstructionId(id, userId);
+
+            if (bodyMeasurements == null)
+            {
+
+               _bll.Instruction.CalculateMeasurements(id);
+                await _bll.SaveChangesAsync();
+                var measurements = new BodyMeasurements();
+
+                return Ok(_mapper.Map(measurements));            }
 
             return Ok(_mapper.Map(bodyMeasurements));
         }

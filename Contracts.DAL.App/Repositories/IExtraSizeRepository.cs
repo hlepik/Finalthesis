@@ -8,7 +8,6 @@ public interface IExtraSizeRepositoryCustom<TEntity>
 {
     Task<IEnumerable<TEntity>?> GetAllByInstructionId(Guid id);
     void RemoveByInstructionId(Guid? id);
-
-
+    
 
 }

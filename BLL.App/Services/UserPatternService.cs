@@ -13,4 +13,6 @@ public class UserPatternService :
     {
         return Mapper.Map(await ServiceRepository.GetByInstructionId(id, userId, noTracking))!;
     }
+
+    
 }

@@ -6,4 +6,5 @@ public interface IUserPatternRepository : IBaseRepository<UserPattern>, IUserPat
 
 public interface IUserPatternRepositoryCustom<TEntity>
 {
-    Task<TEntity?> GetByInstructionId(Guid id, Guid? userId = default, bool noTracking = true);}
+    Task<TEntity?> GetByInstructionId(Guid id, Guid? userId = default, bool noTracking = true);
+}

@@ -1,4 +1,5 @@
 using BLL.App.DTO;
+using BodyMeasurements = DAL.App.DTO.BodyMeasurements;
 
 namespace BLL.App.Services;
 
@@ -30,5 +31,10 @@ public class InstructionService :
     {
         return (await ServiceRepository.GetSearchResult(searchInput, categoryId)).Select(x => Mapper.Map(x)!);
 
+    }
+
+    public void CalculateMeasurements(Guid id)
+    {
+        
     }
 }

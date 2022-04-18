@@ -70,6 +70,7 @@ namespace WebApp.ApiControllers;
         [HttpPost]
         public async Task<ActionResult<UserPattern>> PostUserPattern(UserPattern userPattern)
         {
+            
             _bll.UserPattern.Add(_mapper.Map(userPattern));
             await _bll.SaveChangesAsync();
 

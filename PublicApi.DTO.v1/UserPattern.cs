@@ -7,4 +7,9 @@ public class UserPattern
     public int StepCount { get; set; }
     public Guid AppUserId { get; set; }
     public Guid InstructionId { get; set; }
+    public string? InstructionTitle { get; set; }
+    public string? InstructionCategory { get; set; }
+    public string? InstructionDescription { get; set; }
 }
+
+

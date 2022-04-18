@@ -15,7 +15,8 @@ public class Instruction : DomainEntityId
     
     public int TotalStep { get; set; }
     public ICollection<PatternInstruction>? PatternInstructions { get; set; }
-    public IEnumerable<BodyMeasurements>? BodyMeasurements{ get; set; }
+    public ICollection<BodyMeasurements>? BodyMeasurements{ get; set; }
+    public ICollection<ExtraSize>? ExtraSizes{ get; set; }
 
     public Guid CategoryId { get; set; }
     public Category? Category { get; set; }

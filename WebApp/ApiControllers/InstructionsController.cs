@@ -32,8 +32,8 @@ namespace WebApp.ApiControllers;
         [ProducesResponseType(typeof(PublicApi.DTO.v1.Instruction), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<PublicApi.DTO.v1.Instruction>>> GetLastInsertedInstructions()
         {
-
             return Ok((await _bll.Instruction.GetLastInsertedAsync()).Select(a => _mapper.Map(a)));
+
         }
         // GET: api/Instructions/Search/name
         [HttpGet("Search/{searchInput}/{categoryId}")]
