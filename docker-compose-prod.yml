@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  postgres-hlepik:
+    container_name: "hlepik"
+    image: postgres:latest
+    volumes:
+      - postgres-hlepik-volume:/var/lib/postgresql/data
+    restart: on-failure
+    environment:
+      POSTGRES_DB: postgres-hlepik
+      POSTGRES_USER: hlepik
+      POSTGRES_PASSWORD: hlepik_finalthesis
+    ports:
+      # this maps external:internal, but the docker created network between images is connected directly - using the original ports
+      # so use external for connecting with admin tools - docker will forward connection to internal port
+      - "5432:5432"
+
+
+  webapp-hlepik:
+    container_name: webapp-hlepik
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - webapp-hlepik-volume:/app/wwwroot/uploads
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: on-failure
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__DefaultConnection: "Server=postgres-hlepik,5432;User Id=hlepik;Password=hlepik_finalthesis;Database=postgres-hlepik"
+    ports:
+      - "18080:80"
+    depends_on:
+      - "postgres-hlepik"
+
+  react-hlepik:
+    container_name: "reacthlepik"
+    build:
+      context: .
+      dockerfile: Dockerfile-front
+    restart: on-failure
+    ports:
+      # this maps external:internal, but the docker created network between images is connected directly - using the original ports
+      # so use external for connecting with admin tools - docker will forward connection to internal port
+      - "80:80"
+
+volumes:
+  postgres-hlepik-volume:
+  webapp-hlepik-volume:
