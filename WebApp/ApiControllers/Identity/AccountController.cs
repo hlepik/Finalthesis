@@ -109,6 +109,7 @@ namespace WebApp.ApiControllers.Identity;
                         Token = jwt,
                         Firstname = appUser.Firstname,
                         Lastname = appUser.Lastname,
+                        Id = appUser.Id
                     });
                 }
                 else

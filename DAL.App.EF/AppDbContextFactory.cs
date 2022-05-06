@@ -9,9 +9,8 @@ public class AppDbContextFactory: IDesignTimeDbContextFactory<AppDbContext>
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
         var connectionStr =
-
-            "Server=localhost,11433;User Id=SA;Password=Bad.Pass.1;Database=hlepik;MultipleActiveResultSets=true";
-        optionsBuilder.UseSqlServer(connectionStr);
+            "Server=localhost,5432;User Id=hlepik;Password=hlepik_finalthesis;Database=postgres-hlepik";
+        optionsBuilder.UseNpgsql(connectionStr);
 
         return new AppDbContext(optionsBuilder.Options);
     }

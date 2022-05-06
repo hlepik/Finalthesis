@@ -24,10 +24,10 @@ public class PatternInstructionRepository :
                 Description = p.Description,
                 Title = p.Title,
                 PictureName = p.PictureName,
-                
-             
 
-            }).Where(p => p.InstructionId == id);
+
+
+            }).Where(p => p.InstructionId == id).OrderBy(p => p.Step);
 
         return await resQuery.ToListAsync();
     }

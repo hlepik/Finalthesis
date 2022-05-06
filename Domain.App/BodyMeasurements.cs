@@ -26,6 +26,7 @@ public class BodyMeasurement : DomainEntityId, IDomainAppUserId, IDomainAppUser<
     public float ChestHeight { get; set; } //22 rinna kõrgus
     public float ButtockHeight { get; set; } //23 istmiku kõrgus
     public float Length { get; set; } // üldpikkus
+    public float? InTake { get; set; } // sissevõte
     public Guid UnitId { get; set; }
     public Unit? Unit { get; set; }
     public AppUser? AppUser { get; set; }

@@ -1,29 +1,27 @@
 version: '3.8'
 
 services:
-  mssql-hlepik:
-    container_name: "mssql-hlepik"
-    image: mcr.microsoft.com/azure-sql-edge:latest
+  postgres-hlepik:
+    container_name: "hlepik"
+    image: postgres:latest
     volumes:
-      - mssql-hlepik-volume:/var/opt/mssql
+      - postgres-hlepik-volume:/var/lib/postgresql/data
     restart: on-failure
     environment:
-      TZ: "Europe/Tallinn"
-      ACCEPT_EULA: "Y"
-      # regular sql server
-      SA_PASSWORD: "Bad.Pass.1"
-      # sql edge
-      MSSQL_SA_PASSWORD: "Bad.Pass.1"
-      MSSQL_PID: Developer
+      POSTGRES_DB: postgres-hlepik
+      POSTGRES_USER: hlepik
+      POSTGRES_PASSWORD: hlepik_finalthesis
     ports:
       # this maps external:internal, but the docker created network between images is connected directly - using the original ports
       # so use external for connecting with admin tools - docker will forward connection to internal port
-      - "11433:1433"
+      - "5432:5432"
 
 
   webapp-hlepik:
     container_name: webapp-hlepik
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - webapp-hlepik-volume:/app/wwwroot/uploads
     extra_hosts:
@@ -31,12 +29,12 @@ services:
     restart: on-failure
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-      ConnectionStrings__DefaultConnection: "Server=mssql-hlepik,1433;User Id=SA;Password=Bad.Pass.1;Database=hlepik;MultipleActiveResultSets=true"
+      ConnectionStrings__DefaultConnection: "Server=postgres-hlepik,5432;User Id=hlepik;Password=hlepik_finalthesis;Database=postgres-hlepik"
     ports:
       - "18080:80"
     depends_on:
-      - "mssql-hlepik"
+      - "postgres-hlepik"
 
 volumes:
-  mssql-hlepik-volume:
+  postgres-hlepik-volume:
   webapp-hlepik-volume:

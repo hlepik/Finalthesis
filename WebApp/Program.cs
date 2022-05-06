@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options
-        .UseSqlServer(
+        .UseNpgsql(
             builder.Configuration.GetConnectionString("DefaultConnection"),
             o => { o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery); })
         .ConfigureWarnings(w =>

@@ -25,4 +25,8 @@ public class BodyMeasurementsService :
 
     }
 
+    public async Task<BodyMeasurements?> CalculateUserMeasurements(BLL.App.DTO.Instruction instruction,BodyMeasurements userMeasurements, Guid userId,  IEnumerable<BLL.App.DTO.ExtraSize> extraSizes,bool noTracking = true)
+    {
+        return Mapper.Map(await ServiceRepository.CalculateUserMeasurements(instruction, userMeasurements, userId,  extraSizes, noTracking));
+    }
 }

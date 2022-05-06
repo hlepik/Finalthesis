@@ -16,6 +16,11 @@ dotnet aspnet-codegenerator controller -name UnitsController       -actions -m  
 Scaffold API controller
 
 ~~~sh
-dotnet aspnet-codegenerator controller -name UnitsController -actions -m Domain.App.Unit -dc AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+
+dotnet aspnet-codegenerator controller -name UnitsController -actions -m Domain.App.Unit -dc 
+AppDbContext -outDir ApiControllers -api --useAsyncActions  -f
+
 ~~~
 
+  dotnet aspnet-codegenerator controller -name UnitsController -actions -m Domain.App.Unit -dc
+  AppDbContext -outDir ApiControllers -api --useAsyncActions  -f

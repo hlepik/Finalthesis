@@ -27,6 +27,7 @@ public class BodyMeasurements
     public float ChestHeight { get; set; }
     public float ButtockHeight { get; set; }
     public float Length { get; set; }
+    public float? InTake { get; set; }
     public Guid UnitId { get; set; }
     public Guid AppUserId { get; set; }
     public Guid? InstructionId { get; set; }

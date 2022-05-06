@@ -23,7 +23,7 @@ namespace WebApp.ApiControllers;
         {
             return Ok((await _bll.PatternInstruction.GetAllAsync()).Select(a => _mapper.Map(a)));
         }
-        
+
         // GET: api/PatternInstructions
         [HttpGet("instructionId/{id}")]
         [Produces("application/json")]
@@ -56,22 +56,55 @@ namespace WebApp.ApiControllers;
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Produces("application/json")]
-        [Consumes("application/json")]
+        [Consumes("multipart/form-data")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Message))]
-        public async Task<IActionResult> PutPatternInstruction(Guid id, PatternInstruction patternInstruction)
+        public async Task<IActionResult> PutPatternInstruction(Guid id,[FromForm] PatternInstruction patternInstruction)
         {
             if (id != patternInstruction.Id)
             {
                 return NotFound(new Message("Id and patternInstruction.id do not match"));
             }
 
+            if (patternInstruction.Picture != null)
+            {
+                var instructionFromDb = await _bll.PatternInstruction.FirstOrDefaultAsync(id);
+                string path = "wwwroot/Pictures/" + instructionFromDb!.PictureName;
+                FileInfo pictureToDelete = new FileInfo(path);
+                if (pictureToDelete.Exists)
+                {
+                    pictureToDelete.Delete();
+                }
+
+                string getFirstFiveChars = patternInstruction.Id.ToString().Substring(0, 5);
+                string fileName = getFirstFiveChars + "-" + patternInstruction.Picture!.FileName;
+
+                string filePath = "wwwroot/Pictures/" + fileName;
+                FileInfo file = new FileInfo(filePath);
+                if (!file.Exists)
+                {
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                       patternInstruction.Picture!.CopyTo(stream);
+                    }
+                    patternInstruction.PictureName = fileName;
+                }
+            }
+
             _bll.PatternInstruction.Update(_mapper.Map(patternInstruction));
             await _bll.SaveChangesAsync();
 
-            return NoContent();
+            return CreatedAtAction(
+                "GetPatternInstruction",
+                new
+                {
+                    id = patternInstruction.Id
+
+                }, patternInstruction);
         }
+
 
         // POST: api/PatternInstructions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -82,16 +115,22 @@ namespace WebApp.ApiControllers;
         [HttpPost]
         public async Task<ActionResult<PatternInstruction>> PostPatternInstruction([FromForm] PatternInstruction patternInstruction)
         {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Pictures");
-            string fileName = patternInstruction.Picture!.FileName;
-
-            string fileNameWithPath = Path.Combine(path, fileName);
-
-            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            patternInstruction.Id = Guid.NewGuid();
+            if (patternInstruction.Picture != null)
             {
-                patternInstruction.Picture.CopyTo(stream);
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Pictures/");
+                string getFirstFiveChars = patternInstruction.Id.ToString().Substring(0,5);
+                string fileName = getFirstFiveChars + "-" + patternInstruction.Picture!.FileName;
+
+                string fileNameWithPath = Path.Combine(path, fileName);
+
+                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                {
+                    patternInstruction.Picture.CopyTo(stream);
+                }
+                patternInstruction.PictureName = fileName;
             }
-            patternInstruction.PictureName = fileName;
+
 
             _bll.PatternInstruction.Add(_mapper.Map(patternInstruction));
             await _bll.SaveChangesAsync();
@@ -99,10 +138,41 @@ namespace WebApp.ApiControllers;
             return CreatedAtAction(
                 "GetPatternInstruction",
                 new
-                { 
+                {
                     id = patternInstruction.Id
 
                 }, patternInstruction);
+        }
+
+        // DELETE: api/PatternInstructions/picture/5
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [HttpDelete("picture/{id}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PublicApi.DTO.v1.PatternInstruction))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Message))]
+        public async Task<IActionResult> DeletePatternInstructionPicture(Guid id)
+        {
+            var patternInstruction = await _bll.PatternInstruction.FirstOrDefaultAsync(id);
+            if (patternInstruction == null)
+            {
+                return NotFound(new Message("Pattern instruction not found"));
+            }
+            if (patternInstruction.PictureName != null)
+            {
+                string path = "wwwroot/Pictures/" + patternInstruction.PictureName;
+                FileInfo file = new FileInfo(path);
+                if (file.Exists)
+                {
+                    file.Delete();
+                }
+            }
+
+            patternInstruction.PictureName = null;
+            _bll.PatternInstruction.Update(patternInstruction);
+            await _bll.SaveChangesAsync();
+
+            return Ok(patternInstruction);
         }
 
         // DELETE: api/PatternInstructions/5
@@ -118,6 +188,15 @@ namespace WebApp.ApiControllers;
             if (patternInstruction == null)
             {
                 return NotFound(new Message("Pattern instruction not found"));
+            }
+            if (patternInstruction.PictureName == null)
+            {
+                string path = "wwwroot/Pictures/" + patternInstruction.PictureName;
+                FileInfo file = new FileInfo(path);
+                if (file.Exists)
+                {
+                    file.Delete();
+                }
             }
 
             _bll.PatternInstruction.Remove(patternInstruction);

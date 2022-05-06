@@ -27,10 +27,14 @@ public class Instruction : DomainEntityId
     [MinLength(2)]
     [MaxLength(20000)]
     public string Description { get; set; } = default!;
+    public Boolean IsFullCircleSkirt {  get; set; }
+    public Boolean IsHalfCircleSkirt {  get; set; }
+    public Boolean IsQuarterCircleSkirt {  get; set; }
+
     public ICollection<PatternInstruction>? PatternInstructions { get; set; }
     public Guid CategoryId { get; set; }
     public Category? Category { get; set; }
-    public IEnumerable<BodyMeasurement>? BodyMeasurements{ get; set; }
+    public ICollection<BodyMeasurement>? BodyMeasurements{ get; set; }
     public ICollection<ExtraSize>? ExtraSizes{ get; set; }
 
 }

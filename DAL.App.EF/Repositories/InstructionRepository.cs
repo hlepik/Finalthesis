@@ -27,7 +27,7 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
                 MainPictureName = p.MainPictureName,
                 Name = p.Name,
                 Description = p.Description
-                
+
 
             }).Where(p => p.CategoryId == id);
 
@@ -38,7 +38,7 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
 
         var query = CreateQuery(userId, noTracking);
 
-        
+
            var  resQuery = query
                 .Include(x => x.Category).Select(x=> new Instruction()
                 {
@@ -51,7 +51,7 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
                     MainPictureName = x.MainPictureName,
                     Name = x.Name,
                     FileName = x.FileName
-                    
+
                 }).OrderBy(p => p.DateAdded);
 
 
@@ -62,7 +62,7 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
 
         var query = CreateQuery(userId, noTracking);
 
-        
+
         var  resQuery = query
             .Include(x => x.Category).Select(x=> new Instruction()
             {
@@ -75,7 +75,7 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
                 MainPictureName = x.MainPictureName,
                 Name = x.Name,
                 FileName = x.FileName
-                    
+
             }).OrderBy(p => p.DateAdded).Take(10);
 
 
@@ -98,8 +98,11 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
                 Name = p.Name,
                 PatternFile = p.PatternFile,
                 Description = p.Description,
-                DateAdded = p.DateAdded
-               
+                DateAdded = p.DateAdded,
+                TotalStep = p.TotalStep,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category!.Name
+
 
             }).FirstOrDefaultAsync(m => m.Id == id);
 
@@ -115,7 +118,7 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
         {
             query = query.Where(x => x.CategoryId == categoryId);
         }
-        
+
         var  resQuery = query
             .Include(x => x.Category).Select(x=> new Instruction()
             {
@@ -128,7 +131,7 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
                 MainPictureName = x.MainPictureName,
                 Name = x.Name,
                 FileName = x.FileName
-                    
+
             }).Where(x => x.Name.Contains(searchInput) || x.Description.Contains(searchInput));
 
 
@@ -137,7 +140,7 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
 
     public void CalculateMeasurements(Guid id)
     {
-        var mar = "olen siin";
+
         var query = CreateQuery(default);
 
         query = query.Include(x => x.PatternInstructions);
@@ -154,13 +157,13 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
                 FileName = p.FileName,
                 MainPictureName = p.MainPictureName,
 
-          
+
             }).FirstOrDefaultAsync(m => m.Id == id);
         var measurements = new Domain.App.BodyMeasurement();
 
         RepoDbContext.BodyMeasurements.Add(measurements);
-  
+
     }
 
-   
+
 }

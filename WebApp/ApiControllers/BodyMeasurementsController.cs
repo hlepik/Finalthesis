@@ -25,7 +25,7 @@ namespace WebApp.ApiControllers;
         {
             return Ok((await _bll.BodyMeasurements.GetAllAsync()).Select(a => _mapper.Map(a)));
         }
-        
+
         // GET: api/BodyMeasurements/5
         [HttpGet("{id}")]
         [Produces("application/json")]
@@ -43,7 +43,7 @@ namespace WebApp.ApiControllers;
             return Ok(_mapper.Map(bodyMeasurements));
         }
 
-        
+
         // GET: api/BodyMeasurements/pattern/5
         [HttpGet("pattern/{id}")]
         [Produces("application/json")]
@@ -56,12 +56,25 @@ namespace WebApp.ApiControllers;
 
             if (bodyMeasurements == null)
             {
+                var instruction = await _bll.Instruction.FirstOrDefaultDtoAsync(id);
 
-               _bll.Instruction.CalculateMeasurements(id);
-                await _bll.SaveChangesAsync();
-                var measurements = new BodyMeasurements();
+                if (instruction != null)
+                {
+                    var extraSizes = await _bll.ExtraSize.GetAllByInstructionId(instruction.Id);
+                    var userMeasurements = await _bll.BodyMeasurements.FirstOrDefaultAsync(userId);
 
-                return Ok(_mapper.Map(measurements));            }
+                    var newMeasurements = await _bll.BodyMeasurements.CalculateUserMeasurements(instruction, userMeasurements, userId, extraSizes);
+
+
+
+                    return Ok(_mapper.Map(newMeasurements));
+                }
+                else
+                {
+                    return NotFound("Õpetust ei leitud");
+                }
+
+            }
 
             return Ok(_mapper.Map(bodyMeasurements));
         }

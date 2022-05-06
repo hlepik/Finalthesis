@@ -46,7 +46,7 @@ namespace WebApp.ApiControllers;
 
             return Ok((await _bll.Instruction.GetSearchResult(searchInput, categoryId)).Select(a => _mapper.Map(a)));
         }
-        
+
         // GET: api/Instructions/category
         [HttpGet("category/{id}")]
         [Produces("application/json")]
@@ -75,29 +75,177 @@ namespace WebApp.ApiControllers;
 
             return Ok(_mapper.Map(instruction));
         }
-
         // PUT: api/Instructions/5
-        [HttpPut("{id}")]
+        [HttpPut("file/{id}")]
         [Produces("application/json")]
-        [Consumes("application/json")]
+        [Consumes("multipart/form-data")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Message))]
-        public async Task<IActionResult> PutInstruction(Guid id, Instruction instruction)
+        public async Task<IActionResult> PutInstructionFile(Guid id, [FromForm] Instruction instruction)
         {
             if (id != instruction.Id)
             {
                 return NotFound(new Message("Id and instruction.id do not match"));
             }
 
+            if (instruction.PatternFile != null)
+            {
+
+                var instructionFromDb = await _bll.Instruction.FirstOrDefaultAsync(id);
+                string path = "wwwroot/Files/" + instructionFromDb!.FileName;
+                FileInfo fileToDelete = new FileInfo(path);
+                if (fileToDelete.Exists)
+                {
+                    fileToDelete.Delete();
+                }
+
+                string getFirstFiveChars = instruction.Id.ToString().Substring(0, 5);
+                string fileName = getFirstFiveChars + "-" + instruction.PatternFile!.FileName;
+
+                string filePath = "wwwroot/Files/" + fileName;
+                FileInfo file = new FileInfo(filePath);
+                if (!file.Exists)
+                {
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        instruction.PatternFile!.CopyTo(stream);
+                    }
+                    instruction.FileName = fileName;
+                }
+
+
+            }
+            _bll.Instruction.Update(_mapper.Map(instruction));
+            await _bll.SaveChangesAsync();
+            return CreatedAtAction(
+                "GetInstruction",
+                new
+                {
+                    id = instruction.Id,
+
+                }, instruction);
+        }
+        // PUT: api/Instructions/5
+        [HttpPut("{id}")]
+        [Produces("application/json")]
+        [Consumes("multipart/form-data")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Message))]
+        public async Task<IActionResult> PutInstruction(Guid id, [FromForm] Instruction instruction)
+        {
+
+             if (id != instruction.Id)
+            {
+                return NotFound(new Message("Id and instruction.id do not match"));
+            }
+
+            if (instruction.PatternFile != null)
+            {
+
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files");
+                string getFirstFiveChars = instruction.Id.ToString().Substring(0, 5);
+                string fileName = getFirstFiveChars + "-" + instruction.PatternFile!.FileName;
+
+                string filePath = "wwwroot/Files/" + fileName;
+                FileInfo file = new FileInfo(filePath);
+                if (!file.Exists)
+                {
+                    string fileNameWithPath = Path.Combine(path, fileName);
+
+                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    {
+                        instruction.PatternFile!.CopyTo(stream);
+                    }
+                    instruction.FileName = fileName;
+                }
+
+
+            }
+
+            if(instruction.MainPicture != null){
+
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Pictures");
+                string getFirstFiveChars = instruction.Id.ToString().Substring(0,5);
+                string fileName = getFirstFiveChars + "-" + instruction.MainPicture!.FileName;
+
+                string picturePath = "wwwroot/Pictures/" + fileName;
+                FileInfo pictureFile = new FileInfo(picturePath);
+                if (!pictureFile.Exists)
+                {
+                    string fileNameWithPath = Path.Combine(path, fileName);
+
+                    using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                    {
+                        instruction.MainPicture.CopyTo(stream);
+                    }
+                    instruction.MainPictureName = fileName;
+                }
+
+            }
+
             _bll.Instruction.Update(_mapper.Map(instruction));
             await _bll.SaveChangesAsync();
 
             return NoContent();
+
+        }
+        // PUT: api/Instructions/picture/5
+        [HttpPut("picture/{id}")]
+        [Produces("application/json")]
+        [Consumes("multipart/form-data")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Message))]
+        public async Task<IActionResult> PutInstructionPicture(Guid id, [FromForm] Instruction instruction)
+        {
+            if (id != instruction.Id)
+            {
+                return NotFound(new Message("Id and instruction.id do not match"));
+            }
+
+            if (instruction.MainPicture != null)
+            {
+
+                var instructionFromDb = await _bll.Instruction.FirstOrDefaultAsync(id);
+                string path = "wwwroot/Pictures/" + instructionFromDb!.MainPictureName;
+                FileInfo pictureToDelete = new FileInfo(path);
+                if (pictureToDelete.Exists)
+                {
+                    pictureToDelete.Delete();
+                }
+
+                string getFirstFiveChars = instruction.Id.ToString().Substring(0, 5);
+                string fileName = getFirstFiveChars + "-" + instruction.MainPicture!.FileName;
+
+                string filePath = "wwwroot/Pictures/" + fileName;
+                FileInfo file = new FileInfo(filePath);
+                if (!file.Exists)
+                {
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        instruction.MainPicture!.CopyTo(stream);
+                    }
+                    instruction.MainPictureName = fileName;
+                }
+
+
+            }
+            _bll.Instruction.Update(_mapper.Map(instruction));
+            await _bll.SaveChangesAsync();
+            return CreatedAtAction(
+                "GetInstruction",
+                new
+                {
+                    id = instruction.Id,
+
+                }, instruction);
         }
 
 
-        
         // POST: api/Instructions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Produces("application/json")]
@@ -106,16 +254,16 @@ namespace WebApp.ApiControllers;
         [HttpPost]
         public async Task<ActionResult<Instruction>> PostInstruction([FromForm] Instruction instruction)
         {
-            
+
             instruction.DateAdded = DateTime.Now;
             instruction.Id = Guid.NewGuid();
             try
             {
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files");
                 string picturePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Pictures");
-                var randomGenerator = new Random();
-                var random1 = randomGenerator.Next(1, 99999);
-                string fileName = random1 + "-" + instruction.PatternFile!.FileName;
+
+                string getFirstFiveChars = instruction.Id.ToString().Substring(0,5);
+                string fileName = getFirstFiveChars + "-" + instruction.PatternFile!.FileName;
 
                 string fileNameWithPath = Path.Combine(path, fileName);
 
@@ -124,8 +272,8 @@ namespace WebApp.ApiControllers;
                     instruction.PatternFile!.CopyTo(stream);
                 }
                 instruction.FileName = fileName;
-                
-                string picture = random1 + "-" + instruction.MainPicture!.FileName;
+
+                string picture = getFirstFiveChars + "-" + instruction.MainPicture!.FileName;
 
                 string pictureNameWithPath = Path.Combine(picturePath, picture);
 
@@ -140,11 +288,11 @@ namespace WebApp.ApiControllers;
             {
                 return BadRequest(new PublicApi.DTO.v1.Message("File laadmine ebaõnnestu!"));
             }
-            
+
             _bll.Instruction.Add(_mapper.Map(instruction));
              await _bll.SaveChangesAsync();
 
-          
+
             return CreatedAtAction(
                 "GetInstruction",
                 new
@@ -189,6 +337,7 @@ namespace WebApp.ApiControllers;
 
             return Ok(instruction);
         }
+
 
     }
 
