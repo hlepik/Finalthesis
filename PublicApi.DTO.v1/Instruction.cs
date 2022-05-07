@@ -31,9 +31,8 @@ public class Instruction
     [MinLength(2)]
     [MaxLength(200)]
     public string? CategoryName { get; set; }
-    public Boolean IsFullCircleSkirt {  get; set; }
-    public Boolean IsHalfCircleSkirt {  get; set; }
-    public Boolean IsQuarterCircleSkirt {  get; set; }
+    public string? CircleSkirtType {  get; set; }
+
 
     public IEnumerable<BodyMeasurement>? BodyMeasurements{ get; set; }
 

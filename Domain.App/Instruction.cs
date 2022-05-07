@@ -27,9 +27,7 @@ public class Instruction : DomainEntityId
     [MinLength(2)]
     [MaxLength(20000)]
     public string Description { get; set; } = default!;
-    public Boolean IsFullCircleSkirt {  get; set; }
-    public Boolean IsHalfCircleSkirt {  get; set; }
-    public Boolean IsQuarterCircleSkirt {  get; set; }
+    public string? CircleSkirtType {  get; set; }
 
     public ICollection<PatternInstruction>? PatternInstructions { get; set; }
     public Guid CategoryId { get; set; }

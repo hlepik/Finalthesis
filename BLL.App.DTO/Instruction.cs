@@ -16,9 +16,8 @@ public class Instruction : DomainEntityId
 
     public Guid CategoryId { get; set; }
     public Category? Category { get; set; }
-    public Boolean IsFullCircleSkirt {  get; set; }
-    public Boolean IsHalfCircleSkirt {  get; set; }
-    public Boolean IsQuarterCircleSkirt {  get; set; }
+    public string? CircleSkirtType {  get; set; }
+
     public string? CategoryName { get; set; }
     public IEnumerable<ExtraSize>? ExtraSizes{ get; set; }
 

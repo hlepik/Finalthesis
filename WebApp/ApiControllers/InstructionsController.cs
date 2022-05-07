@@ -259,16 +259,17 @@ namespace WebApp.ApiControllers;
             instruction.Id = Guid.NewGuid();
             try
             {
+            
+
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files");
                 string picturePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Pictures");
-
                 string getFirstFiveChars = instruction.Id.ToString().Substring(0,5);
-                string fileName = getFirstFiveChars + "-" + instruction.PatternFile!.FileName;
-
+                string fileName = getFirstFiveChars + "-" + instruction.FileName;
                 string fileNameWithPath = Path.Combine(path, fileName);
 
                 using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
                 {
+
                     instruction.PatternFile!.CopyTo(stream);
                 }
                 instruction.FileName = fileName;
@@ -286,7 +287,7 @@ namespace WebApp.ApiControllers;
             }
             catch (Exception)
             {
-                return BadRequest(new PublicApi.DTO.v1.Message("File laadmine ebaõnnestu!"));
+                return BadRequest(new PublicApi.DTO.v1.Message("Faili laadmine ebaõnnestu!"));
             }
 
             _bll.Instruction.Add(_mapper.Map(instruction));

@@ -10,9 +10,8 @@ public class Instruction : DomainEntityId
     public string Description { get; set; } = default!;
     public string? MainPictureName { get; set; }
     public string? CategoryName { get; set; }
-    public Boolean IsFullCircleSkirt {  get; set; }
-    public Boolean IsHalfCircleSkirt {  get; set; }
-    public Boolean IsQuarterCircleSkirt {  get; set; }
+    public string? CircleSkirtType {  get; set; }
+
 
     public IFormFile? MainPicture { get; set; }
 
