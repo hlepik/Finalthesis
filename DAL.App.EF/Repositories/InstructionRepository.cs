@@ -26,6 +26,7 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
                 CategoryId = p.CategoryId,
                 MainPictureName = p.MainPictureName,
                 Name = p.Name,
+                CircleSkirtType = p.CircleSkirtType,
                 Description = p.Description
 
 
@@ -48,6 +49,7 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
                     Description = x.Description,
                     DateAdded = x.DateAdded,
                     CategoryName = x.Category!.Name,
+                    CircleSkirtType = x.CircleSkirtType,
                     MainPictureName = x.MainPictureName,
                     Name = x.Name,
                     FileName = x.FileName
@@ -73,6 +75,7 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
                 DateAdded = x.DateAdded,
                 CategoryName = x.Category!.Name,
                 MainPictureName = x.MainPictureName,
+                CircleSkirtType = x.CircleSkirtType,
                 Name = x.Name,
                 FileName = x.FileName
 
@@ -101,6 +104,7 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
                 DateAdded = p.DateAdded,
                 TotalStep = p.TotalStep,
                 CategoryId = p.CategoryId,
+                CircleSkirtType = p.CircleSkirtType,
                 CategoryName = p.Category!.Name
 
 
@@ -128,6 +132,7 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
                 Description = x.Description,
                 DateAdded = x.DateAdded,
                 CategoryName = x.Category!.Name,
+                CircleSkirtType = x.CircleSkirtType,
                 MainPictureName = x.MainPictureName,
                 Name = x.Name,
                 FileName = x.FileName
@@ -155,6 +160,7 @@ public class InstructionRepository : BaseRepository<Instruction, Domain.App.Inst
                 Description = p.Description,
                 TotalStep = p.TotalStep,
                 FileName = p.FileName,
+                CircleSkirtType = p.CircleSkirtType,
                 MainPictureName = p.MainPictureName,
 
 

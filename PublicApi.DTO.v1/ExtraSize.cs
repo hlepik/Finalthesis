@@ -7,6 +7,6 @@ public class ExtraSize
     [MinLength(2)]
     [MaxLength(100)]
     public string Name { get; set; } = default!;
-    public int Extra { get; set; }
+    public float Extra { get; set; }
     public Guid InstructionId { get; set; }
 }

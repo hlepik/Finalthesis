@@ -255,12 +255,10 @@ namespace WebApp.ApiControllers;
         public async Task<ActionResult<Instruction>> PostInstruction([FromForm] Instruction instruction)
         {
 
-            instruction.DateAdded = DateTime.Now;
+            instruction.DateAdded = DateTime.UtcNow;
             instruction.Id = Guid.NewGuid();
             try
             {
-            
-
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files");
                 string picturePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Pictures");
                 string getFirstFiveChars = instruction.Id.ToString().Substring(0,5);

@@ -61,11 +61,15 @@ namespace WebApp.ApiControllers;
                 if (instruction != null)
                 {
                     var extraSizes = await _bll.ExtraSize.GetAllByInstructionId(instruction.Id);
-                    var userMeasurements = await _bll.BodyMeasurements.FirstOrDefaultAsync(userId);
+                    var userMeasurements = await _bll.BodyMeasurements.FirstOrDefaultUserMeasurementsAsync(userId);
 
                     var newMeasurements = await _bll.BodyMeasurements.CalculateUserMeasurements(instruction, userMeasurements, userId, extraSizes);
 
-
+                    newMeasurements!.AppUserId = userId;
+                    newMeasurements.InstructionId = instruction.Id;
+                    newMeasurements.UnitId = userMeasurements.UnitId;
+                    _bll.BodyMeasurements.Add(newMeasurements);
+                    await _bll.SaveChangesAsync();
 
                     return Ok(_mapper.Map(newMeasurements));
                 }

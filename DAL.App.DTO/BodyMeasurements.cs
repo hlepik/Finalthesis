@@ -28,7 +28,7 @@ public class BodyMeasurements : DomainEntityId
     public float Length { get; set; }
     public float? InTake { get; set; }
 
-    public Guid UnitId { get; set; }
+    public Guid? UnitId { get; set; }
     public Unit? Unit { get; set; }
     public Guid? InstructionId { get; set; }
     public Instruction? Instruction { get; set; }

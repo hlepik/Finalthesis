@@ -107,10 +107,11 @@ public class BodyMeasurementsRepository :
         var query = CreateQuery(default, noTracking);
 
         var calculatedMeasurements = new BodyMeasurements();
-        if (instruction.CategoryName == ECategories.Kleidid.ToString())
+        calculatedMeasurements.InstructionId = instruction.Id;
+        calculatedMeasurements.AppUserId = userId;
+        if (instruction.CategoryName == ECategories.Seelikud.ToString())
         {
             calculatedMeasurements = GetSkirtMeasurements(instruction,  userMeasurements, extraSizes);
-
 
         }
 
@@ -135,25 +136,26 @@ public class BodyMeasurementsRepository :
                 {
                     if (size.Name == EMeasurements.waistGirth.ToString())
                     {
-                        calculatedMeasurements.WaistGirth = (userMeasurements.WaistGirth + hasWaistGirth.Extra - 2) % 6;
-                    }
+
+                        calculatedMeasurements.WaistGirth = (float)((userMeasurements.WaistGirth + hasWaistGirth.Extra) / 6.28 - 2);
+;                    }
                 }
             }
             else if(instruction.CircleSkirtType == ECircleSkirtType.HalfCircle.ToString() && hasWaistGirth != null)
             {
-                calculatedMeasurements.WaistGirth = 2 *( userMeasurements.WaistGirth + hasWaistGirth.Extra - 2) % 6;
+                calculatedMeasurements.WaistGirth = (float) ((2 * userMeasurements.WaistGirth + hasWaistGirth.Extra) / 6.28 - 2);
 
             }
             else if(instruction.CircleSkirtType == ECircleSkirtType.QuarterCircle.ToString() && hasWaistGirth != null)
             {
-                calculatedMeasurements.WaistGirth = 4 *( userMeasurements.WaistGirth + hasWaistGirth.Extra - 2) % 6;
+                calculatedMeasurements.WaistGirth = (float) (( 4 *userMeasurements.WaistGirth + hasWaistGirth.Extra)  / 6.28 - 2);
 
             }
             else if(hasWaistGirth != null && hasHipGirth != null)
             {
-                calculatedMeasurements.WaistGirth = (userMeasurements.WaistGirth + hasWaistGirth.Extra) % 2;
-                calculatedMeasurements.HipGirth = (userMeasurements.HipGirth + hasHipGirth.Extra) % 2;
-                calculatedMeasurements.InTake = (calculatedMeasurements.WaistGirth + hasWaistGirth.Extra) - calculatedMeasurements.HipGirth;
+                calculatedMeasurements.WaistGirth = (userMeasurements.WaistGirth + hasWaistGirth.Extra) / 2;
+                calculatedMeasurements.HipGirth = (userMeasurements.HipGirth + hasHipGirth.Extra) / 2;
+                calculatedMeasurements.InTake = (calculatedMeasurements.HipGirth + hasWaistGirth.Extra) - calculatedMeasurements.WaistGirth;
                 calculatedMeasurements.WaistLengthFirst = userMeasurements.WaistLengthFirst;
             }
 
