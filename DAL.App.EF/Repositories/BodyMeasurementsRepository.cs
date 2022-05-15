@@ -113,6 +113,12 @@ public class BodyMeasurementsRepository :
         {
             calculatedMeasurements = GetSkirtMeasurements(instruction,  userMeasurements, extraSizes);
 
+        }else if (instruction.CategoryName == ECategories.Kleidid.ToString())
+        {
+
+            calculatedMeasurements = GetSkirtMeasurements(instruction, userMeasurements, extraSizes);
+            calculatedMeasurements =
+                GetShirtMeasurements(instruction, userMeasurements, extraSizes, calculatedMeasurements);
         }
 
 
@@ -137,30 +143,97 @@ public class BodyMeasurementsRepository :
                     if (size.Name == EMeasurements.waistGirth.ToString())
                     {
 
-                        calculatedMeasurements.WaistGirth = (float)((userMeasurements.WaistGirth + hasWaistGirth.Extra) / 6.28 - 2);
+                        calculatedMeasurements.WaistGirth = (float)((userMeasurements.WaistGirth + hasWaistGirth.Extra) / 6.28);
 ;                    }
                 }
             }
             else if(instruction.CircleSkirtType == ECircleSkirtType.HalfCircle.ToString() && hasWaistGirth != null)
             {
-                calculatedMeasurements.WaistGirth = (float) ((2 * userMeasurements.WaistGirth + hasWaistGirth.Extra) / 6.28 - 2);
+                calculatedMeasurements.WaistGirth = (float) ((2 * userMeasurements.WaistGirth + hasWaistGirth.Extra) / 6.28 );
 
             }
             else if(instruction.CircleSkirtType == ECircleSkirtType.QuarterCircle.ToString() && hasWaistGirth != null)
             {
-                calculatedMeasurements.WaistGirth = (float) (( 4 *userMeasurements.WaistGirth + hasWaistGirth.Extra)  / 6.28 - 2);
+                calculatedMeasurements.WaistGirth = (float) (( 4 *userMeasurements.WaistGirth + hasWaistGirth.Extra)  / 6.28);
 
             }
             else if(hasWaistGirth != null && hasHipGirth != null)
             {
                 calculatedMeasurements.WaistGirth = (userMeasurements.WaistGirth + hasWaistGirth.Extra) / 2;
                 calculatedMeasurements.HipGirth = (userMeasurements.HipGirth + hasHipGirth.Extra) / 2;
-                calculatedMeasurements.InTake = (calculatedMeasurements.HipGirth + hasWaistGirth.Extra) - calculatedMeasurements.WaistGirth;
+                calculatedMeasurements.InTake = (calculatedMeasurements.HipGirth + hasHipGirth.Extra) -
+                                                (calculatedMeasurements.WaistGirth + hasWaistGirth.Extra) - 1;
                 calculatedMeasurements.WaistLengthFirst = userMeasurements.WaistLengthFirst;
             }
 
         }
         return calculatedMeasurements;
+
+    }
+     public BodyMeasurements GetShirtMeasurements(Instruction instruction, BLL.App.DTO.BodyMeasurements userMeasurements, IEnumerable<BLL.App.DTO.ExtraSize> extraSizes, DAL.App.DTO.BodyMeasurements bodyMeasurement)
+    {
+
+
+        if (extraSizes != null)
+        {
+            var hasChestGirth = extraSizes?.Where(x => x.Name == EMeasurements.chestGirth.ToString()).FirstOrDefault();
+            var hasArmholeLength = extraSizes?.Where(x => x.Name == EMeasurements.armholeLength.ToString()).FirstOrDefault();
+            var hasArmholeWidth = extraSizes?.Where(x => x.Name == EMeasurements.armHoleWidth.ToString()).FirstOrDefault();
+            var hasBackLength = extraSizes?.Where(x => x.Name == EMeasurements.backLength.ToString()).FirstOrDefault();
+            var hasBackWidth = extraSizes?.Where(x => x.Name == EMeasurements.backWidth.ToString()).FirstOrDefault();
+            var hasChestHeight = extraSizes?.Where(x => x.Name == EMeasurements.chestHeight.ToString()).FirstOrDefault();
+            var hasWaistGirth = extraSizes?.Where(x => x.Name == EMeasurements.waistGirth.ToString()).FirstOrDefault();
+            var hasHipGirth = extraSizes?.Where(x => x.Name == EMeasurements.hipGirth.ToString()).FirstOrDefault();
+
+
+
+            if (hasBackLength != null)
+            {
+                bodyMeasurement.BackLength = (userMeasurements.BackLength  + hasBackLength.Extra);
+            }
+            if (hasArmholeLength != null)
+            {
+                bodyMeasurement.ArmholeLength = userMeasurements.ArmholeLength + hasArmholeLength.Extra;
+            }
+            if (hasArmholeWidth  != null && hasChestGirth != null)
+            {
+                if (userMeasurements.Length > 164)
+                {
+                    bodyMeasurement.ArmHoleWidth = (float)(((userMeasurements.ChestGirth / 2)  + hasChestGirth.Extra) / 4 - 1.5);
+
+                }
+                else
+                {
+                    bodyMeasurement.ArmHoleWidth = ((userMeasurements.ChestGirth / 2) + hasChestGirth.Extra) / 3 - 6;
+
+                }
+            }
+            if (hasBackWidth != null && bodyMeasurement.ArmHoleWidth != null)
+            {
+                bodyMeasurement.BackWidth = (float)(((userMeasurements.BackLength / 2 + hasBackWidth.Extra) / 2 - 1) +
+                                                    bodyMeasurement.ArmHoleWidth)!;
+            }
+
+            if (hasChestGirth != null)
+            {
+                bodyMeasurement.ChestGirth = (float)((userMeasurements.ChestGirth / 2 + hasChestGirth.Extra) -
+                                                     (userMeasurements.BackWidth / 2 + bodyMeasurement.ArmHoleWidth))!;
+            }
+            if (hasChestHeight != null)
+            {
+                bodyMeasurement.ChestHeight = userMeasurements.ChestHeight;
+            }
+            if (instruction.CircleSkirtType != "" )
+            {
+                bodyMeasurement.InTake = ((userMeasurements.ChestGirth + hasChestGirth!.Extra) / 2 -
+                                          (userMeasurements.WaistGirth + hasWaistGirth!.Extra) / 2)  - 1;
+            }
+
+
+
+
+        }
+        return bodyMeasurement;
 
     }
 

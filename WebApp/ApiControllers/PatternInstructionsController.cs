@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Hosting;
+
 namespace WebApp.ApiControllers;
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
@@ -7,10 +9,13 @@ namespace WebApp.ApiControllers;
     {
         private readonly PatternInstructionMapper _mapper = new PatternInstructionMapper();
         private readonly IAppBLL _bll;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public PatternInstructionsController(IAppBLL bll)
+        public PatternInstructionsController(IAppBLL bll, IWebHostEnvironment hostingEnvironment)
         {
             _bll = bll;
+            _hostingEnvironment = hostingEnvironment;
+
         }
 
         // GET: api/PatternInstructions
@@ -70,7 +75,7 @@ namespace WebApp.ApiControllers;
             if (patternInstruction.Picture != null)
             {
                 var instructionFromDb = await _bll.PatternInstruction.FirstOrDefaultAsync(id);
-                string path = "wwwroot/Pictures/" + instructionFromDb!.PictureName;
+                string path = _hostingEnvironment.WebRootPath + "/content/uploads/" + instructionFromDb!.PictureName;
                 FileInfo pictureToDelete = new FileInfo(path);
                 if (pictureToDelete.Exists)
                 {
@@ -80,7 +85,7 @@ namespace WebApp.ApiControllers;
                 string getFirstFiveChars = patternInstruction.Id.ToString().Substring(0, 5);
                 string fileName = getFirstFiveChars + "-" + patternInstruction.Picture!.FileName;
 
-                string filePath = "wwwroot/Pictures/" + fileName;
+                string filePath = _hostingEnvironment.WebRootPath + "/content/uploads/"  + fileName;
                 FileInfo file = new FileInfo(filePath);
                 if (!file.Exists)
                 {
@@ -118,7 +123,9 @@ namespace WebApp.ApiControllers;
             patternInstruction.Id = Guid.NewGuid();
             if (patternInstruction.Picture != null)
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Pictures/");
+
+
+                string path = Path.Combine(Directory.GetCurrentDirectory(), _hostingEnvironment.WebRootPath + "/content/uploads" );
                 string getFirstFiveChars = patternInstruction.Id.ToString().Substring(0,5);
                 string fileName = getFirstFiveChars + "-" + patternInstruction.Picture!.FileName;
 
@@ -160,7 +167,7 @@ namespace WebApp.ApiControllers;
             }
             if (patternInstruction.PictureName != null)
             {
-                string path = "wwwroot/Pictures/" + patternInstruction.PictureName;
+                string path = _hostingEnvironment.WebRootPath + "/content/uploads/"  + patternInstruction.PictureName;
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
                 {
@@ -191,7 +198,7 @@ namespace WebApp.ApiControllers;
             }
             if (patternInstruction.PictureName == null)
             {
-                string path = "wwwroot/Pictures/" + patternInstruction.PictureName;
+                string path = _hostingEnvironment.WebRootPath + "/content/uploads/" + patternInstruction.PictureName;
                 FileInfo file = new FileInfo(path);
                 if (file.Exists)
                 {

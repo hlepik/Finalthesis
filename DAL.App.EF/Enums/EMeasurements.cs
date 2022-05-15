@@ -13,6 +13,12 @@ public enum EMeasurements
     hipGirth,
     waistLengthSec,
     upperArmGirth,
+    frontLength,
+    armholeLength,
+    armHoleWidth,
+    backLength,
+    backWidth,
+    chestHeight
 
 
 }
@@ -24,7 +30,7 @@ public static class EnumExtensions
     {
         var type = value.GetType();
         var name = Enum.GetName(type, value);
-        return type.GetField(name)!
+        return type.GetField(name!)!
             .GetCustomAttributes(false)
             .OfType<TAttribute>()
             .SingleOrDefault()!;

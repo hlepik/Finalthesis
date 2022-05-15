@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Hosting;
+
 namespace WebApp.ApiControllers;
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[controller]")]
@@ -7,10 +9,16 @@ namespace WebApp.ApiControllers;
     {
         private readonly InstructionMapper _mapper = new InstructionMapper();
         private readonly IAppBLL _bll;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public InstructionsController(IAppBLL bll)
+
+        public InstructionsController(IAppBLL bll, IWebHostEnvironment hostingEnvironment)
         {
             _bll = bll;
+            _hostingEnvironment = hostingEnvironment;
+
+
+
         }
 
         // GET: api/Instructions
@@ -75,6 +83,9 @@ namespace WebApp.ApiControllers;
 
             return Ok(_mapper.Map(instruction));
         }
+
+
+
         // PUT: api/Instructions/5
         [HttpPut("file/{id}")]
         [Produces("application/json")]
@@ -89,11 +100,12 @@ namespace WebApp.ApiControllers;
                 return NotFound(new Message("Id and instruction.id do not match"));
             }
 
-            if (instruction.PatternFile != null)
+            if (instruction.FileName != null)
             {
 
                 var instructionFromDb = await _bll.Instruction.FirstOrDefaultAsync(id);
-                string path = "wwwroot/Files/" + instructionFromDb!.FileName;
+                string path = _hostingEnvironment.WebRootPath + "/content/uploads";
+                path = Path.Combine(path, instructionFromDb!.FileName!);
                 FileInfo fileToDelete = new FileInfo(path);
                 if (fileToDelete.Exists)
                 {
@@ -103,7 +115,7 @@ namespace WebApp.ApiControllers;
                 string getFirstFiveChars = instruction.Id.ToString().Substring(0, 5);
                 string fileName = getFirstFiveChars + "-" + instruction.PatternFile!.FileName;
 
-                string filePath = "wwwroot/Files/" + fileName;
+                string filePath = _hostingEnvironment.WebRootPath + "/content/uploads" + fileName;
                 FileInfo file = new FileInfo(filePath);
                 if (!file.Exists)
                 {
@@ -144,16 +156,17 @@ namespace WebApp.ApiControllers;
 
             if (instruction.PatternFile != null)
             {
+                string filePath = _hostingEnvironment.WebRootPath + "/content/uploads";
 
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files");
-                string getFirstFiveChars = instruction.Id.ToString().Substring(0, 5);
+                string getFirstFiveChars = instruction.Id.ToString().Substring(0,5);
                 string fileName = getFirstFiveChars + "-" + instruction.PatternFile!.FileName;
 
-                string filePath = "wwwroot/Files/" + fileName;
+                filePath = Path.Combine(filePath, fileName);
+
                 FileInfo file = new FileInfo(filePath);
                 if (!file.Exists)
                 {
-                    string fileNameWithPath = Path.Combine(path, fileName);
+                    string fileNameWithPath = Path.Combine(filePath, fileName);
 
                     using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
                     {
@@ -167,12 +180,13 @@ namespace WebApp.ApiControllers;
 
             if(instruction.MainPicture != null){
 
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Pictures");
+                string path = _hostingEnvironment.WebRootPath + "/content/uploads";
+
                 string getFirstFiveChars = instruction.Id.ToString().Substring(0,5);
                 string fileName = getFirstFiveChars + "-" + instruction.MainPicture!.FileName;
 
-                string picturePath = "wwwroot/Pictures/" + fileName;
-                FileInfo pictureFile = new FileInfo(picturePath);
+                path = Path.Combine(path, fileName);
+                FileInfo pictureFile = new FileInfo(path);
                 if (!pictureFile.Exists)
                 {
                     string fileNameWithPath = Path.Combine(path, fileName);
@@ -210,7 +224,8 @@ namespace WebApp.ApiControllers;
             {
 
                 var instructionFromDb = await _bll.Instruction.FirstOrDefaultAsync(id);
-                string path = "wwwroot/Pictures/" + instructionFromDb!.MainPictureName;
+                string path = _hostingEnvironment.WebRootPath + "/content/uploads/"  + instructionFromDb!.MainPictureName;
+
                 FileInfo pictureToDelete = new FileInfo(path);
                 if (pictureToDelete.Exists)
                 {
@@ -220,7 +235,9 @@ namespace WebApp.ApiControllers;
                 string getFirstFiveChars = instruction.Id.ToString().Substring(0, 5);
                 string fileName = getFirstFiveChars + "-" + instruction.MainPicture!.FileName;
 
-                string filePath = "wwwroot/Pictures/" + fileName;
+                string filePath = _hostingEnvironment.WebRootPath + "/content/uploads" ;
+                filePath = Path.Combine(filePath, fileName);
+
                 FileInfo file = new FileInfo(filePath);
                 if (!file.Exists)
                 {
@@ -255,38 +272,41 @@ namespace WebApp.ApiControllers;
         public async Task<ActionResult<Instruction>> PostInstruction([FromForm] Instruction instruction)
         {
 
-            instruction.DateAdded = DateTime.UtcNow;
             instruction.Id = Guid.NewGuid();
             try
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files");
-                string picturePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Pictures");
                 string getFirstFiveChars = instruction.Id.ToString().Substring(0,5);
                 string fileName = getFirstFiveChars + "-" + instruction.FileName;
-                string fileNameWithPath = Path.Combine(path, fileName);
+                var filePath = _hostingEnvironment.WebRootPath + "/content/uploads";
+                Directory.CreateDirectory(filePath);
 
-                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                filePath = Path.Combine(filePath, fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
 
-                    instruction.PatternFile!.CopyTo(stream);
+                    await instruction.PatternFile!.CopyToAsync(stream);
                 }
+
                 instruction.FileName = fileName;
 
-                string picture = getFirstFiveChars + "-" + instruction.MainPicture!.FileName;
+                string pictureFileName = getFirstFiveChars + "-" + instruction.MainPictureName;
 
-                string pictureNameWithPath = Path.Combine(picturePath, picture);
+                filePath = _hostingEnvironment.WebRootPath + "/content/uploads" ;
+                Directory.CreateDirectory(filePath);
+                filePath = Path.Combine(filePath, pictureFileName);
 
-                using (var stream = new FileStream(pictureNameWithPath, FileMode.Create))
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    instruction.MainPicture!.CopyTo(stream);
+                    await instruction.MainPicture!.CopyToAsync(stream);
                 }
-                instruction.MainPictureName = picture;
+                instruction.MainPictureName = pictureFileName;
 
             }
             catch (Exception)
             {
                 return BadRequest(new PublicApi.DTO.v1.Message("Faili laadmine ebaõnnestu!"));
             }
+            instruction.DateAdded = DateTime.UtcNow;
 
             _bll.Instruction.Add(_mapper.Map(instruction));
              await _bll.SaveChangesAsync();
@@ -312,6 +332,8 @@ namespace WebApp.ApiControllers;
         {
              _bll.ExtraSize.RemoveByInstructionId(id);
              _bll.PatternInstruction.RemoveByInstructionId(id);
+             _bll.UserPattern.RemoveByInstructionId(id);
+
              await _bll.SaveChangesAsync();
 
             var instruction = await _bll.Instruction.FirstOrDefaultAsync(id);
@@ -319,13 +341,14 @@ namespace WebApp.ApiControllers;
             {
                 return NotFound(new Message("Instruction not found"));
             }
-            string path = "wwwroot/Files/" + instruction.FileName;
+
+            string path = _hostingEnvironment.WebRootPath + "/content/uploads/" + instruction.FileName;
             FileInfo file = new FileInfo(path);
             if (file.Exists)
             {
                 file.Delete();
             }
-            string picturePath = "wwwroot/Pictures/" + instruction.MainPictureName;
+            string picturePath = _hostingEnvironment.WebRootPath + "/content/uploads/"  + instruction.MainPictureName;
             FileInfo pictureFile = new FileInfo(picturePath);
             if (pictureFile.Exists)
             {

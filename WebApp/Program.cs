@@ -2,6 +2,7 @@ using DAL.App.DTO.MappingProfiles;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();

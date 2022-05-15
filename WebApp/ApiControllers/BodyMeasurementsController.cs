@@ -37,7 +37,7 @@ namespace WebApp.ApiControllers;
 
             if (bodyMeasurements == null)
             {
-                return NotFound(new Message("Body measurements not found"));
+                return NotFound(new Message("Kehamõõtu ei leitud"));
             }
 
             return Ok(_mapper.Map(bodyMeasurements));
@@ -63,7 +63,12 @@ namespace WebApp.ApiControllers;
                     var extraSizes = await _bll.ExtraSize.GetAllByInstructionId(instruction.Id);
                     var userMeasurements = await _bll.BodyMeasurements.FirstOrDefaultUserMeasurementsAsync(userId);
 
-                    var newMeasurements = await _bll.BodyMeasurements.CalculateUserMeasurements(instruction, userMeasurements, userId, extraSizes);
+                    if (userMeasurements == null)
+                    {
+                        return NotFound(new Message("Kasutaja kehamõõtusi ei leitud"));
+
+                    }
+                    var newMeasurements = await _bll.BodyMeasurements.CalculateUserMeasurements(instruction, userMeasurements, userId, extraSizes!);
 
                     newMeasurements!.AppUserId = userId;
                     newMeasurements.InstructionId = instruction.Id;

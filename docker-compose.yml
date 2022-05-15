@@ -24,6 +24,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - webapp-hlepik-volume:/app/wwwroot/uploads
+      - static-volume:/app/content/uploads
+
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: on-failure
@@ -35,6 +37,10 @@ services:
     depends_on:
       - "postgres-hlepik"
 
+
 volumes:
   postgres-hlepik-volume:
   webapp-hlepik-volume:
+  static-volume:
+
+

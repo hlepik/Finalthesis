@@ -30,5 +30,4 @@ global using Microsoft.AspNetCore.Authorization;
 global using PublicApi.DTO.v1.Mappers;
 global using Microsoft.AspNetCore.Http;
 global using PublicApi.DTO.v1;
-global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.Logging;
